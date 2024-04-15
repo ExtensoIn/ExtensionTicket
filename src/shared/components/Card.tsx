@@ -1,6 +1,6 @@
 import bg from '../../assets/05967bb9-231d-4794-be70-d1ad6f18196b.webp'
 
-interface CardProps {
+export interface CardProps {
     title: string;
     description: string;
     imageUrl?: string;
