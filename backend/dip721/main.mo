@@ -36,7 +36,6 @@ actor class Dip721NFT(init_args : Type.Metadata) {
     stable var upgraded_at : Int = Time.now();
     stable var custodians_attr = init_args.custodians;
     // stable var custodians_attr: [Principal] = [];
-    stable var counter_nft = 0;
     stable let nfts = Map.new<Nat, TokenMetadata>();
     stable let operators = Map.new<Principal, [Nat]>();
     stable let history = Map.new<Nat, TxEvent>();
@@ -526,7 +525,6 @@ actor class Dip721NFT(init_args : Type.Metadata) {
     };
     //sOLO CUSTODIANS
     public shared ({ caller }) func burn(token_identifier : Nat) : async Result<Nat, NftError> {
-        counter_nft -= 1;
         let old_owner = Option.get(Map.get(nfts, nhash, token_identifier), nft_default).owner;
         if(Option.get(old_owner, default_principal) != caller) return #err(#UnauthorizedOwner);
 
