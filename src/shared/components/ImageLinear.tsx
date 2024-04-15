@@ -21,6 +21,11 @@ const ImageLinear = (props: ImageLinearProps) => {
                 absolute inset-0 bg-pink-500 bg-gradient-to-r from-pink-500 
                 to-purple-800 md:opacity-90 opacity-80"
             ></div>
+            <div
+                className="
+                absolute inset-0 bg-black opacity-20"
+            ></div>
+
             <img
                 src={loaded ? (props.img || bg) : bg}
                 alt="bg"
