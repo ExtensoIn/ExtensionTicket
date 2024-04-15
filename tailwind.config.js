@@ -8,7 +8,13 @@ export default {
         "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                AbrilFatface: ["Abril Fatface", "serif"],
+                DMSans: ["DM Sans", "sans-serif"],
+                AbhayaLibre: ["Abhaya Libre", "serif"],
+            },
+        },
     },
     darkMode: "class",
     plugins: [nextui()],

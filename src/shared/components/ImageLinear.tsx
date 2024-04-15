@@ -27,7 +27,7 @@ const ImageLinear = (props: ImageLinearProps) => {
                 className="absolute h-full w-full object-cover -z-10"
                 onLoad={() => setLoaded(true)}
             />
-            <div className="flex items-center justify-center text-white font-bold text-2xl opacity-80">
+            <div className="flex items-center justify-center h-full text-white font-bold text-2xl opacity-80">
                 {props.children}
             </div>
         </div>
