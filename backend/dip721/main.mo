@@ -27,15 +27,12 @@ actor class Dip721NFT(init_args : Type.Metadata) {
     type SupportedInterface = Type.SupportedInterface;
     type GenericValue = Type.GenericValue;
     stable var logo_attr : ?Text = init_args.logo;
-    // stable var logo_attr : ?Text = ?"";
     stable var name_attr : ?Text = init_args.name;
-    // stable var name_attr : ?Text = ?"";
     stable var symbol_attr : ?Text = init_args.symbol;
-    // stable var symbol_attr : ?Text = ?"";
     stable var created_at : Int = Time.now();
     stable var upgraded_at : Int = Time.now();
     stable var custodians_attr = init_args.custodians;
-    // stable var custodians_attr: [Principal] = [];
+    stable var nftId = 0;
     stable let nfts = Map.new<Nat, TokenMetadata>();
     stable let operators = Map.new<Principal, [Nat]>();
     stable let history = Map.new<Nat, TxEvent>();
@@ -485,17 +482,18 @@ actor class Dip721NFT(init_args : Type.Metadata) {
         );
     };
 
-    private func mint_(caller: Principal, to : Principal, token_identifier : Nat, properties : [(Text, GenericValue)]) : Result<Nat, NftError> {
+    public shared ({ caller }) func mint(to : Principal, _ : Nat, properties : [(Text, GenericValue)]) : async Result<Nat, NftError> {
         if (not List.some<Principal>(List.fromArray(custodians_attr), func(f) { f == caller })) {
             return #err(#Other("Unauthorized caller for mint"));
         };
-        if (Buffer.contains(Buffer.fromIter<Nat>(Map.keys(nfts)), token_identifier, Nat.equal)) {
+        if (Buffer.contains(Buffer.fromIter<Nat>(Map.keys(nfts)), nftId + 1, Nat.equal)) {
             return #err(#ExistedNFT);
         };
+        nftId += 1;
         Map.set<Nat, TokenMetadata>(
             nfts,
             nhash,
-            token_identifier,
+            nftId,
             {
                 transferred_at = null;
                 transferred_by = null;
@@ -503,7 +501,7 @@ actor class Dip721NFT(init_args : Type.Metadata) {
                 operator = null;
                 properties = properties;
                 is_burned = false;
-                token_identifier = token_identifier;
+                token_identifier = nftId;
                 burned_at = null;
                 burned_by = null;
                 approved_at = null;
@@ -517,17 +515,12 @@ actor class Dip721NFT(init_args : Type.Metadata) {
                 "mint",
                 [
                     ("to", #Principal(to)),
-                    ("token_identifier", #NatContent(token_identifier)),
+                    ("token_identifier", #NatContent(nftId)),
                 ],
                 caller,
             )
         );
     };
-
-    public shared ({caller}) func mint(to : Principal, token_identifier : Nat, properties : [(Text, GenericValue)]) : async Result<Nat, NftError>{
-        mint_(caller, to, token_identifier, properties);
-    };
-    
     //sOLO CUSTODIANS
     public shared ({ caller }) func burn(token_identifier : Nat) : async Result<Nat, NftError> {
         let old_owner = Option.get(Map.get(nfts, nhash, token_identifier), nft_default).owner;
@@ -574,9 +567,4 @@ actor class Dip721NFT(init_args : Type.Metadata) {
     public query func totalTransactions() : async Nat {
         return Map.size(history);
     };
-
-    public shared func mintByActor(actorId: Text, to : Principal, token_identifier : Nat, properties : [(Text, GenericValue)]) : async Result<Nat, NftError>{
-        let actorPrincipal = Principal.fromActor(actor(actorId));
-        mint_(actorPrincipal, to, token_identifier, properties);
-    }
 };
