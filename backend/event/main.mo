@@ -4,8 +4,7 @@ import Result "mo:base/Result";
 import Buffer "mo:base/Buffer";
 import List "mo:base/List";
 import Map "mo:map/Map";
-import {thash} "mo:map/Map";
-import {phash} "mo:map/Map";
+import {nhash} "mo:map/Map";
 
 actor class Event(initArgs : Type.InitArgs) {
   type Result<T, K> = Result.Result<T, K>;
@@ -16,9 +15,7 @@ actor class Event(initArgs : Type.InitArgs) {
   type Event = Type.Event;
   stable var custodians = initArgs.custodians;
   stable var eventIdCounter: EventId = 0;
-  stable var events: [Event] = [];
-  stable let eventUserEmail = Map.new<UserEmail, Event>();
-  stable let eventUserPrincipal = Map.new<UserPrincipal, Event>();
+  stable let events = Map.new<EventId, Event>();
 
   public shared ({ caller }) func addCustodian(custodian : Principal) : async Result<(), EventError> {
     if (not List.some<Principal>(List.fromArray(custodians), func c { c == caller })) {
@@ -30,23 +27,17 @@ actor class Event(initArgs : Type.InitArgs) {
     return #ok;
   };
 
-  public shared ({caller}) func addEvent(event : Event) : async Result<Event, EventError> {
+  public shared ({caller}) func addEvent(eventId: EventId, event : Event) : async Result<Event, EventError> {
     eventIdCounter += 1;
-    let newEvent: Event = {event with eventId = eventIdCounter};
-    Map.set(eventUserPrincipal, phash, caller, newEvent);
-    let bufferEvents = Buffer.fromArray<Event>(events);
-    bufferEvents.add(newEvent);
-    events := Buffer.toArray(bufferEvents);
-    return #ok(newEvent);
+    let newEvent: Event = {event with createdByPrincipal = ?caller};
+    Map.set(events, nhash, eventId, newEvent);
+    return #ok(event);
   };
 
-  public shared func addEventByEmail(email: Text, event : Event) : async Result<Event, EventError> {
+  public shared func addEventByEmail(email: Text, event : Event, eventId: EventId) : async Result<Event, EventError> {
     eventIdCounter += 1;
-    let newEvent: Event = {event with eventId = eventIdCounter};
-    Map.set(eventUserEmail, thash, email, newEvent);
-    let bufferEvents = Buffer.fromArray<Event>(events);
-    bufferEvents.add(newEvent);
-    events := Buffer.toArray(bufferEvents);
+    let newEvent: Event = {event with createdByEmail = ?email};
+    Map.set(events, nhash, eventId, newEvent);
     return #ok(newEvent);
   };
 
