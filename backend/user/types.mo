@@ -26,6 +26,6 @@ module Types{
         #UnauthorizedUser;
         #UserNotFound;
         #UserAlreadyExists;
-        #Other;
+        #Other: Text;
     }
 }
