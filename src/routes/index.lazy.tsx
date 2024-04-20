@@ -50,6 +50,7 @@ function Index() {
             <Events
                 title='Upcoming Events'
                 events={events}
+                showImage
             />
         </>
     )
