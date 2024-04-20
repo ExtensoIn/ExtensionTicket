@@ -1,4 +1,4 @@
-import bg from '../../assets/backgroundHome.webp'
+import bg from '../../assets/home/backgroundHome.webp'
 
 export interface CardProps {
     title: string;

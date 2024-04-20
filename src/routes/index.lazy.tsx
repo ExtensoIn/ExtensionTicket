@@ -1,6 +1,8 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import ImageLinear from '../shared/components/ImageLinear'
 import Events from '../shared/components/Events'
+import petIcon from '../assets/home/petIcon.svg'
+import CustomButton from '../shared/components/Button'
 
 export const Route = createLazyFileRoute('/')({
     component: Index,
@@ -42,11 +44,20 @@ function Index() {
     return (
         <div className='flex flex-col'>
             <ImageLinear height='100vh'>
-                <div className='flex flex-col h-full justify-center items-center'>
-                    <h1 className='text-white text-4xl font-AbrilFatface font-light'>Welcome to ExtensionTicket</h1>
+                <div className='flex flex-col h-full w-full justify-center items-center'>
+                    <section className='w-full flex justify-between items-center px-40'>
+                        <img src={petIcon} alt="Extension Ticket Pet" className='shadow-2xl' />
+                        <span className='max-w-96 flex flex-col gap-6'>
+                            <h1 className='text-4xl font-AbhayaLibre font-light'>Unlock the blockchain power, one ticket at a time</h1>
+                            <p className='font-AbhayaLibre text-lg'>Secure your spot now and join the digital revolution! Tickets selling fast – don't miss out!</p>
+                            <span className='flex gap-4 w-full'>
+                                <CustomButton>Get Tickets</CustomButton>
+                                <CustomButton type='secondary'>Learn More</CustomButton>
+                            </span>
+                        </span>
+                    </section>
                 </div>
             </ImageLinear>
-
             <Events
                 title='Upcoming Events'
                 events={events}

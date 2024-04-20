@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import bg from '../../assets/backgroundHome.webp';
+import bg from '../../assets/home/backgroundHome.webp';
 
 interface ImageLinearProps {
     img?: string;

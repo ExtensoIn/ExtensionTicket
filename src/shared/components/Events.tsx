@@ -1,5 +1,5 @@
 import Card, { CardProps } from './Card';
-import bg from '../../assets/backgroundHome.webp';
+import bg from '../../assets/home/backgroundHome.webp';
 
 interface EventsProps {
     title: string;
