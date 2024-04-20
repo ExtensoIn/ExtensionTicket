@@ -1,0 +1,45 @@
+type Time = int;
+type Status = 
+ variant {
+   Canceled;
+   Finished;
+   InProgress;
+ };
+type Result_1 = 
+ variant {
+   err: EventError;
+   ok;
+ };
+type Result = 
+ variant {
+   err: EventError;
+   ok: Event__1;
+ };
+type InitArgs = record {custodians: vec principal;};
+type Event__1 = 
+ record {
+   createdByEmail: opt text;
+   createdByPrincipal: opt principal;
+   description: text;
+   endDate: Time;
+   name: text;
+   participants: vec principal;
+   participantsEmail: vec text;
+   place: text;
+   startDate: Time;
+   status: Status;
+   ticketsAmount: nat;
+ };
+type EventId = nat;
+type EventError = 
+ variant {
+   EventNotFound;
+   UnauthorizedOwner;
+ };
+type Event = 
+ service {
+   addCustodian: (principal) -> (Result_1);
+   addEvent: (EventId, Event__1) -> (Result);
+   addEventByEmail: (text, Event__1, EventId) -> (Result);
+ };
+service : (InitArgs) -> Event

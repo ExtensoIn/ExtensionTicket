@@ -1,0 +1,98 @@
+// Version: 1.0.0
+type GenericValue =
+  {
+    #BlobContent : [Nat8];
+    #BoolContent : Bool;
+    #FloatContent : Float;
+    #Int16Content : Int16;
+    #Int32Content : Int32;
+    #Int64Content : Int64;
+    #Int8Content : Int8;
+    #IntContent : Int;
+    #Nat16Content : Nat16;
+    #Nat32Content : Nat32;
+    #Nat64Content : Nat64;
+    #Nat8Content : Nat8;
+    #NatContent : Nat;
+    #NestedContent : Vec;
+    #Principal : Principal;
+    #TextContent : Text
+  };
+type TokenMetadata =
+  {
+    approved_at : ?Nat64;
+    approved_by : ?Principal;
+    burned_at : ?Nat64;
+    burned_by : ?Principal;
+    is_burned : Bool;
+    minted_at : Nat64;
+    minted_by : Principal;
+    operator : ?Principal;
+    owner : ?Principal;
+    properties : [(Text, GenericValue)];
+    token_identifier : Nat;
+    transferred_at : ?Nat64;
+    transferred_by : ?Principal
+  };
+type TokenMetadata__1 = TokenMetadata;
+type TxEvent =
+  {
+    caller : Principal;
+    details : [(Text, GenericValue)];
+    operation : Text;
+    time : Nat64
+  };
+type TxEvent__1 = TxEvent;
+type Vec =
+  [(Text,
+    {
+      #BlobContent : [Nat8];
+      #BoolContent : Bool;
+      #FloatContent : Float;
+      #Int16Content : Int16;
+      #Int32Content : Int32;
+      #Int64Content : Int64;
+      #Int8Content : Int8;
+      #IntContent : Int;
+      #Nat16Content : Nat16;
+      #Nat32Content : Nat32;
+      #Nat64Content : Nat64;
+      #Nat8Content : Nat8;
+      #NatContent : Nat;
+      #NestedContent : Vec;
+      #Principal : Principal;
+      #TextContent : Text
+    })];
+actor {
+  stable var created_at : Int;
+  stable var custodians_attr : [Principal];
+  stable default_principal : Principal;
+  stable history :
+    [var ?([var ?Nat], [var ?TxEvent__1], [var Nat], [var Nat32])];
+  stable var logo_attr : ?Text;
+  stable var name_attr : ?Text;
+  stable var nftId : Nat;
+  stable nft_default :
+    {
+      approved_at : ?Nat64;
+      approved_by : ?Principal;
+      burned_at : ?Nat64;
+      burned_by : ?Principal;
+      is_burned : Bool;
+      minted_at : Nat64;
+      minted_by : Principal;
+      operator : ?Principal;
+      owner : ?Principal;
+      properties : [(Text, GenericValue)];
+      token_identifier : Nat;
+      transferred_at : ?Nat64;
+      transferred_by : ?Principal
+    };
+  stable nfts :
+    [var ?([var ?Nat], [var ?TokenMetadata__1], [var Nat], [var Nat32])];
+  stable operators :
+    [var ?([var ?Principal], [var ?[Nat]], [var Nat], [var Nat32])];
+  stable var symbol_attr : ?Text;
+  stable var transaction_id : Nat;
+  stable var upgraded_at : Int
+};
