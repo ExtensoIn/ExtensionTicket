@@ -19,12 +19,16 @@ const Events = ({ title, events, showImage }: EventsProps) => {
                 </div>
             </section>
             {showImage && (
-                <div className="absolute inset-0 w-full overflow-hidden z-0">
-                    <img
-                        src={bg}
-                        alt="Your Image"
-                        className="w-full h-auto sepia opacity-5 brightness-200 contrast-200 grayscale saturate-200"
-                    />
+                <div className="absolute inset-0 w-full z-0"
+                    style={{
+                        background: `url(${bg})`,
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'repeat',
+                        backgroundPosition: 'center',
+                        filter: 'brightness(230%) contrast(230%) grayscale(200%) saturate(200%)',
+                        opacity: 0.05,
+                    }}
+                >
                 </div>
             )}
         </div>
