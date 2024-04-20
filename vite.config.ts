@@ -3,6 +3,8 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import type { UserConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc'
+import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
+
 
 // npm run dev = local
 // npm run build = local
@@ -73,7 +75,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
 	};
 
 	return {
-		plugins: [react()],
+    plugins: [react(), TanStackRouterVite()],
 		// Backwards compatibility for auto generated types of dfx that are meant for webpack and process.env
 		define: {
 			'process.env': {
@@ -82,4 +84,4 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
 			}
 		}
 	};
-});
+})
