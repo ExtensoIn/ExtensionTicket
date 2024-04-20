@@ -5,7 +5,7 @@ import ImageLinear from '../shared/components/ImageLinear'
 
 export const Route = createRootRoute({
     component: () => (
-        <main>
+        <main className='flex flex-col items-center'>
             <Header />
             <Outlet />
             <TanStackRouterDevtools />

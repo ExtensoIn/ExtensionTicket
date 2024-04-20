@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import icon from '../../assets/icon.svg'
 import { Link } from '@tanstack/react-router'
 
@@ -7,8 +8,29 @@ function Header() {
         { name: 'Events', url: '/events' },
         { name: 'Contact', url: '/contact' },
     ]
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const isScrolled = window.scrollY > 30;
+            setIsScrolled(isScrolled);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+
     return (
-        <header className="bg-transparent fixed w-full top-0 z-10 flex justify-between py-4 px-40 gap-4 items-center text-white">
+        <header style={isScrolled ? {
+            backgroundColor: 'rgba(0,0,0,0.3)',
+            backdropFilter: 'blur(10px)',
+            transition: 'background-color 0.5s',
+            borderRadius: '3rem'
+        } : {
+            transition: 'background-color border-radius 0.5s',
+        }} className="bg-transparent rounded-[3rem] fixed w-max top-4 z-30 flex justify-between py-2 px-8 gap-60 items-center text-white">
             <span className='flex gap-1 items-center'>
                 <img src={icon} alt="ExtensionTicket" />
                 <h1 className='font-AbrilFatface font-light'><span className='font-bold'>Extension</span>Ticket</h1>
