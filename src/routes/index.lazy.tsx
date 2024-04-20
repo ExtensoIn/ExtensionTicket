@@ -40,7 +40,7 @@ function Index() {
 
     ]
     return (
-        <>
+        <div className='flex flex-col gap-2'>
             <ImageLinear height='100vh'>
                 <div className='flex flex-col h-full justify-center items-center'>
                     <h1 className='text-white text-4xl font-AbrilFatface font-light'>Welcome to ExtensionTicket</h1>
@@ -52,6 +52,6 @@ function Index() {
                 events={events}
                 showImage
             />
-        </>
+        </div>
     )
 }
