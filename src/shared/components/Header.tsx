@@ -8,7 +8,7 @@ function Header() {
         { name: 'Contact', url: '/contact' },
     ]
     return (
-        <header className="bg-transparent absolute w-full top-0 z-10 flex justify-between py-4 px-12 gap-4 items-center text-white">
+        <header className="bg-transparent fixed w-full top-0 z-10 flex justify-between py-4 px-40 gap-4 items-center text-white">
             <span className='flex gap-1 items-center'>
                 <img src={icon} alt="ExtensionTicket" />
                 <h1 className='font-AbrilFatface font-light'><span className='font-bold'>Extension</span>Ticket</h1>
