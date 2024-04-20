@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import icon from '../../assets/icon.svg'
+import ticketIcon from '../../assets/ticketIcon.svg'
 import { Link } from '@tanstack/react-router'
 
 function Header() {
@@ -33,7 +33,7 @@ function Header() {
                 transition: 'background-color border-radius 0.5s',
             }} className='flex w-full py-2 px-8 justify-between rounded-[3rem] items-center'>
                 <span className='flex gap-1 items-center'>
-                    <img src={icon} alt="ExtensionTicket" />
+                    <img src={ticketIcon} alt="ExtensionTicket" />
                     <h1 className='font-AbrilFatface font-light'><span className='font-bold'>Extension</span>Ticket</h1>
                 </span>
                 <ul className='flex gap-2 font-DMSans items-center'>
