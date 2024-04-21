@@ -1,4 +1,3 @@
-import bg from '../../assets/backgroundHome.webp'
 import ImageLinear from './ImageLinear';
 
 const NotFound = () => {
