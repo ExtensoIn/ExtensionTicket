@@ -32,11 +32,13 @@ function Header() {
                 borderRadius: '3rem'
             } : {
                 transition: 'background-color border-radius 0.5s',
-            }} className='flex w-full py-2 px-8 justify-between rounded-[3rem] items-center'>
-                <span className='flex gap-1 items-center py-2 xs:py-0'>
-                    <img src={ticketIcon} alt="ExtensionTicket" className='hidden xs:block' />
-                    <h1 className='flex font-AbrilFatface font-light'><span className='font-bold'>Extension</span>Ticket</h1>
-                </span>
+            }} className='flex w-full px-6 py-2 xs:px-8 justify-between rounded-[3rem] items-center'>
+                <Link to='/'>
+                    <span className='flex gap-1 items-center py-2 xs:py-0'>
+                        <img src={ticketIcon} alt="ExtensionTicket" className='hidden xs:block' />
+                        <h1 className='flex font-AbrilFatface font-light'><span className='font-bold'>Extension</span>Ticket</h1>
+                    </span>
+                </Link>
                 <ul className='hidden sm:flex gap-2 font-DMSans items-center'>
                     {linkList.map((link: { name: string, url: string }) => (
                         <Link key={link.url} to={link.url} className='hover:underline'>{link.name}</Link>
