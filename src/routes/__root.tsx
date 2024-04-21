@@ -5,7 +5,7 @@ import NotFound from '../shared/components/NotFound'
 
 export const Route = createRootRoute({
     component: () => (
-        <main className='flex flex-col items-center'>
+        <main className='flex flex-col'>
             <Header />
             <Outlet />
             <TanStackRouterDevtools />

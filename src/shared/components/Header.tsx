@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ticketIcon from '../../assets/ticketIcon.svg'
 import { Link } from '@tanstack/react-router'
+import { IconoirProvider, Menu } from 'iconoir-react';
 
 function Header() {
     const linkList = [
@@ -23,7 +24,7 @@ function Header() {
 
 
     return (
-        <header className="bg-transparent fixed w-full top-4 z-30 px-40 flex text-white">
+        <header className="bg-transparent fixed w-full top-4 z-30 flex text-white px-10 md:px-20 lg:px-40">
             <div style={isScrolled ? {
                 backgroundColor: 'rgba(0,0,0,0.3)',
                 backdropFilter: 'blur(10px)',
@@ -32,18 +33,25 @@ function Header() {
             } : {
                 transition: 'background-color border-radius 0.5s',
             }} className='flex w-full py-2 px-8 justify-between rounded-[3rem] items-center'>
-                <span className='flex gap-1 items-center'>
-                    <img src={ticketIcon} alt="ExtensionTicket" />
-                    <h1 className='font-AbrilFatface font-light'><span className='font-bold'>Extension</span>Ticket</h1>
+                <span className='flex gap-1 items-center py-2 xs:py-0'>
+                    <img src={ticketIcon} alt="ExtensionTicket" className='hidden xs:block' />
+                    <h1 className='flex font-AbrilFatface font-light'><span className='font-bold'>Extension</span>Ticket</h1>
                 </span>
-                <ul className='flex gap-2 font-DMSans items-center'>
+                <ul className='hidden sm:flex gap-2 font-DMSans items-center'>
                     {linkList.map((link: { name: string, url: string }) => (
                         <Link key={link.url} to={link.url} className='hover:underline'>{link.name}</Link>
                     ))}
                     <Link to='/login' className='hover:bg-white hover:text-purple-800 border-1 border-white rounded-[2rem] px-4 py-2'>Login</Link>
                 </ul>
+                <button className='sm:hidden w-6 h-6'>
+                    <IconoirProvider>
+                        <Menu />
+                    </IconoirProvider>
+                </button>
             </div>
+            <div>
 
+            </div>
         </header>
     )
 }
