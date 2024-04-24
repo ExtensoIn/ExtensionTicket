@@ -19,9 +19,9 @@
 import {createActor as createUserActor, canisterId as userCanisterId} from "../declarations/user";
 import {createActor as createNftActor, canisterId as nftCanisterId} from "../declarations/dip721";
 import {createActor as createEventActor, canisterId as eventCanisterId} from "../declarations/event";
-import {HttpAgent} from "@dfinity/agent";
+import {HttpAgent, Identity} from "@dfinity/agent";
 
-export const makeActor = (canisterId: string, createActor: any, identity: any) => {
+export const makeActor = (canisterId: string, createActor: any, identity?: Identity) => {
   if(identity){
     const agent = new HttpAgent({
       identity: identity,
@@ -40,14 +40,14 @@ export const makeActor = (canisterId: string, createActor: any, identity: any) =
   })
 }
 
-export function makeNftActor(identity?: any) {
+export function makeNftActor(identity?: Identity) {
   return makeActor(nftCanisterId, createNftActor, identity)
 }
 
-export function makeUserActor(identity?: any) {
+export function makeUserActor(identity?: Identity) {
   return makeActor(userCanisterId, createUserActor, identity)
 }
 
-export function makeEventActor(identity?: any) {
+export function makeEventActor(identity?: Identity) {
   return makeActor(eventCanisterId, createEventActor, identity)
 }
