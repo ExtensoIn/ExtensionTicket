@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 TIME=$(($(date +%s) * 1000000000))
 dfx deploy --argument "(
   record {

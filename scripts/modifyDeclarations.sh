@@ -1,18 +1,9 @@
 #!/usr/bin/env bash
 
-# Paths to files
-initial_file=".dfx/local/canister_ids.json"
-fallback_file="canister_ids.json"
-
-# Read content from the initial file (if exists) or the fallback file
-if [ -f "$initial_file" ]; then
-    content=$(cat "$initial_file")
-else
-    content=$(cat "$fallback_file")
-fi
+files=( "dip721" "user" "event" )
 
 # Iterate over each key and process the corresponding file
-while IFS= read -r key; do
+for key in "${files[@]}"; do
     if [ "$key" != "__Candid_UI" ] && [ "$key" != "frontend" ] && [ "$key" != "internet_identity" ]; then
         # Construct the file path
         file_path="src/declarations/${key}/index.js"
@@ -28,6 +19,6 @@ while IFS= read -r key; do
         # Write the updated content back to the file
         echo "$updated_content" > "$file_path"
     fi
-done <<< "$(echo "$content" | jq -r 'keys[]')"
+done
 
 echo "String replaced in all files."
