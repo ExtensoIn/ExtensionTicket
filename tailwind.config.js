@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const { nextui } = require("@nextui-org/react");
+import { nextui } from "@nextui-org/react";
 
 export default {
     content: [
@@ -13,6 +13,9 @@ export default {
                 AbrilFatface: ["Abril Fatface", "serif"],
                 DMSans: ["DM Sans", "sans-serif"],
                 AbhayaLibre: ["Abhaya Libre", "serif"],
+            },
+            screens: {
+                xs: "475px",
             },
         },
     },

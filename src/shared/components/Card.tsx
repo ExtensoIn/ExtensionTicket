@@ -1,4 +1,4 @@
-import bg from '../../assets/05967bb9-231d-4794-be70-d1ad6f18196b.webp'
+import bg from '../../assets/home/backgroundHome.webp'
 
 export interface CardProps {
     title: string;
@@ -10,7 +10,7 @@ export interface CardProps {
 
 const Card = (props: CardProps) => {
     return (
-        <div className='bg-white rounded-md '>
+        <div className='bg-white rounded-md cursor-pointer'>
             <img src={props.imageUrl || bg} alt={props.title} className='w-full h-56 object-cover rounded-t-md' />
             <div className='bg-white rounded-md flex'>
                 <div className='w-1/5'>

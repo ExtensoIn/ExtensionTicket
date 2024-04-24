@@ -1,13 +1,19 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import Header from '../shared/components/Header'
+import NotFound from '../shared/components/NotFound'
 
 export const Route = createRootRoute({
     component: () => (
-        <main>
+        <main className='flex flex-col'>
             <Header />
             <Outlet />
             <TanStackRouterDevtools />
         </main>
     ),
-})
+    notFoundComponent: () => (
+        <NotFound />
+    ),
+
+}
+)
