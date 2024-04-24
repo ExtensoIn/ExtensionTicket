@@ -3,13 +3,14 @@ module Types {
   public type EventId = Nat;
 
   public type Status = {
+    #NotStarted;
     #Finished;
     #Canceled;
     #InProgress;
   };
 
   public type Event = {
-    name : Text;
+    title : Text;
     place : Text;
     description : Text;
     startDate : Time.Time;
@@ -20,6 +21,8 @@ module Types {
     createdByEmail: ?Text;
     createdByPrincipal: ?Principal;
     status: Status;
+    categories: [Text];
+    eventType: Text;
   };
 
   public type InitArgs = {
@@ -30,4 +33,13 @@ module Types {
     #EventNotFound;
     #UnauthorizedOwner;
   };
+
+  public type Filter = {
+    #Category: [Text]; // Varias categorias
+    #EventType: [Text]; // Varios tipos de evento
+    #DateRange: (Int, Int);
+    #Date: Int;
+    #Place: Text;
+    #Title: Text; // Patron
+  }
 };
