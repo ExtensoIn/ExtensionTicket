@@ -49,7 +49,7 @@ function HomeBanner() {
 
 function CreateEvent() {
     return (
-        <section className='bg-purple-200 w-full flex flex-col justify-center items-center px-6 pb-6 md:max-h-64 md:flex-row'>
+        <section className='bg-purple-200 w-full flex flex-col gap-4 md:gap-10 justify-center items-center px-6 pb-6 md:max-h-64 md:flex-row'>
             <img className='relative md:bottom-20' src={dogIcon} alt="Dog banner icon" />
             <span className='flex flex-col gap-2 text-center md:text-left'>
                 <h3 className='text-3xl font-bold '>Make your own event</h3>

@@ -25,7 +25,7 @@ const Events = ({ title, events, showImage }: EventsProps) => {
                     <Input className='dark' classNames={styles} variant='underlined' label="Date" />
                 </div>
             </div>
-            <section className='flex flex-col gap-6 items-center justify-center bg-gray-100 px-10 py-20 md:px-20 lg:px-40 md:py-28'>
+            <section className='flex flex-col gap-6 items-center justify-center bg-gray-100 px-10 py-20 pb-8 md:px-20 lg:px-40 md:py-28'>
                 <h1 className='text-4xl font-light font-AbrilFatface text-left w-full text-blue-950'>{title}</h1>
                 <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-10 mt-8 w-full z-10'>
                     {events.map((event, index) => (
