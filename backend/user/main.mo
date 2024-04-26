@@ -164,4 +164,8 @@ actor class User(initArgs : Type.InitArgs) {
       };
     };
   };
+
+  public query ({caller}) func isRegistered(): async Bool{
+    return Option.get(Map.contains(users, phash, caller), false)
+  };
 };

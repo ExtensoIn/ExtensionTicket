@@ -5,14 +5,20 @@ module Types {
   public type Status = {
     #NotStarted;
     #Finished;
-    #Canceled;
-    #InProgress;
+    #Started;
+  };
+
+  public type Speaker = {
+    name: Text;
+    position: Text;
   };
 
   public type Event = {
+    id: EventId;
     title : Text;
-    place : Text;
-    description : Text;
+    place : ?Text;
+    shortDescription: Text;
+    longDescription : ?Text;
     startDate : Time.Time;
     endDate : Time.Time;
     ticketsAmount : Nat;
@@ -22,7 +28,11 @@ module Types {
     createdByPrincipal: ?Principal;
     status: Status;
     categories: [Text];
-    eventType: Text;
+    eventType: EventType;
+    price: Nat;
+    bannerPrincipal: ?Text;
+    imagenPrincipal: ?Text;
+    speakers: [Speaker];
   };
 
   public type InitArgs = {
@@ -36,10 +46,16 @@ module Types {
 
   public type Filter = {
     #Category: [Text]; // Varias categorias
-    #EventType: [Text]; // Varios tipos de evento
+    #EventType: [EventType]; // Varios tipos de evento
     #DateRange: (Int, Int);
     #Date: Int;
     #Place: Text;
     #Title: Text; // Patron
+  };
+
+  public type EventType = {
+    #OnSite;
+    #Online;
+    #Hybrid;
   }
 };

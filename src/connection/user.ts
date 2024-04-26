@@ -75,3 +75,8 @@ export async function registerToEventPrincipal(identity: Identity, eventId: numb
     throw new UserError(registerEventResult.err)
   }
 }
+
+export async function isRegistered(identity: Identity): Promise<boolean>{
+  const actor = makeUserActor(identity);
+  return await actor.isRegistered()
+}

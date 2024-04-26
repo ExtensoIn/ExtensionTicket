@@ -5,6 +5,7 @@ import Buffer "mo:base/Buffer";
 import List "mo:base/List";
 import Text "mo:base/Text";
 import Iter "mo:base/Iter";
+import Option "mo:base/Option";
 import Map "mo:map/Map";
 import {nhash} "mo:map/Map";
 import Time "mo:time/time";
@@ -17,6 +18,7 @@ actor class Event(initArgs : Type.InitArgs) {
   type EventId = Type.EventId;
   type Event = Type.Event;
   type Filter = Type.Filter;
+  type EventType = Type.EventType;
   stable var custodians = initArgs.custodians;
   stable var eventIdCounter: EventId = 0;
   stable let events = Map.new<EventId, Event>();
@@ -37,16 +39,20 @@ actor class Event(initArgs : Type.InitArgs) {
 
   public shared ({caller}) func addEvent(event : Event) : async Result<Event, EventError> {
     eventIdCounter += 1;
-    let newEvent: Event = {event with createdByPrincipal = ?caller};
+    let newEvent: Event = {{event with createdByPrincipal = ?caller} with id = eventIdCounter};
     Map.setFront(events, nhash, eventIdCounter, newEvent);
     return #ok(event);
   };
 
   public shared func addEventByEmail(email: Text, event : Event) : async Result<Event, EventError> {
     eventIdCounter += 1;
-    let newEvent: Event = {event with createdByEmail = ?email};
+    let newEvent: Event = {{event with createdByEmail = ?email} with id = eventIdCounter};
     Map.setFront(events, nhash, eventIdCounter, newEvent);
     return #ok(newEvent);
+  };
+
+  private func equalEventType(e1: EventType, e2: EventType): Bool{
+    return e1 == e2
   };
 
   public query func getEvents(limit: Nat, offset: Nat, sortBy: ?Filter): async [Event]{
@@ -62,8 +68,8 @@ actor class Event(initArgs : Type.InitArgs) {
         return false;
       });};
       case(?#EventType(eventType)) { eventsBuffer.filterEntries(func(_, event){
-        let eventTypeBuffer = Buffer.fromArray<Text>(eventType);
-        return Buffer.contains<Text>(eventTypeBuffer, event.eventType, Text.equal);
+        let eventTypeBuffer = Buffer.fromArray<EventType>(eventType);
+        return Buffer.contains<EventType>(eventTypeBuffer, event.eventType, equalEventType);
       });};
       case(?#DateRange(from, to)) { eventsBuffer.filterEntries(func(_, event){
         return event.startDate >= from and event.startDate <= to
@@ -74,7 +80,8 @@ actor class Event(initArgs : Type.InitArgs) {
         return dateTime.year == dateEvent.year and dateTime.month == dateEvent.month and dateTime.day == dateEvent.day
       });};
       case(?#Place(place)) { eventsBuffer.filterEntries(func(_, event){
-        return event.place == place
+        let eventPlace = Option.get(event.place, "");
+        return eventPlace == place
       });};
       case(?#Title(title)) { eventsBuffer.filterEntries(func(_, event){
         let patternTitle = #text title;
@@ -91,6 +98,17 @@ actor class Event(initArgs : Type.InitArgs) {
       eventsBuffer := Buffer.subBuffer(eventsBuffer, offset, limit)
     };
     return Buffer.toArray(eventsBuffer);
+  };
+
+  public query ({caller}) func getMyEvents(): async [Event]{
+    return Iter.toArray<Event>(Iter.filter(Map.vals(events), func(event: Event): Bool{ event.createdByPrincipal == ?caller }));
+  };
+
+  public query func getEvent(id: EventId): async Result<Event, EventError>{
+    switch(Map.get(events, nhash, id)) {
+      case(null) { return #err(#EventNotFound) };
+      case(?event) { return #ok(event) };
+    };
   }
 
 };
