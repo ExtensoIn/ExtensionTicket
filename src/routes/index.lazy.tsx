@@ -85,11 +85,11 @@ function Brands() {
     ]
     return (
         <section className='flex flex-col gap-4 items-center justify-center p-8'>
-            <span className='text-center'>
-                <h3 className='text-3xl font-AbhayaLibre font-semibold'>
+            <span className='text-center flex flex-col gap-4'>
+                <h3 className='text-4xl font-AbhayaLibre font-semibold'>
                     Join these brands
                 </h3>
-                <p className='font-DMSans'>We've had the pleasure of working with industry-defining brands. These are just some of them. </p>
+                <p className='text-xl font-DMSans'>We've had the pleasure of working with industry-defining brands. These are just some of them. </p>
             </span>
             <span className='grid grid-cols-2 md:grid-cols-3 
             lg:grid-cols-5 items-center content-center justify-items-center auto-rows-fr gap-2'>
