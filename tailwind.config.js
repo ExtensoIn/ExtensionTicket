@@ -15,6 +15,7 @@ export default {
                 AbhayaLibre: ["Abhaya Libre", "serif"],
             },
             screens: {
+                "2xs": "395px",
                 xs: "475px",
             },
         },
