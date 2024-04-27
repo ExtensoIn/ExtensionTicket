@@ -76,7 +76,8 @@ function CreateEvent() {
     setThirdForm(data);
     console.log(data);
   }
-  const onCancelThird = () => {
+  const onCancelThird = (data: CreateEventThirdForm) => {
+    setThirdForm(data)
     setStep(1);
   }
 
@@ -186,7 +187,7 @@ function CreateEventSecond({ onSubmit, onCancel, data }: CreateEventSecondProps)
 
 interface CreateEventThirdProps {
   onSubmit: (data: CreateEventThirdForm) => void;
-  onCancel: () => void;
+  onCancel: (data: CreateEventThirdForm) => void;
   data: CreateEventThirdForm | undefined;
 }
 
@@ -206,7 +207,7 @@ function CreateEventThird({ onSubmit, onCancel, data }: CreateEventThirdProps) {
     <FormProvider {...methods}>
       <form className='bg-[#000000d9] backdrop-blur-[2px] flex flex-col p-4 py-8 xs:p-8 gap-4 rounded-xl' onSubmit={methods.handleSubmit(onSubmit)}>
         <div className='flex w-full justify-end'>
-          <CustomButton buttonType='button' type='action' onClick={onCancel}>{'Back ⬅️'}</CustomButton>
+          <CustomButton buttonType='button' type='action' onClick={() => onCancel(methods.getValues())}>{'Back ⬅️'}</CustomButton>
         </div>
         {fields.map((field, index) => (
           <div key={field.id} className='grid-cols-1 grid xs:grid-cols-[1fr_1fr_auto] gap-4'>
@@ -219,7 +220,7 @@ function CreateEventThird({ onSubmit, onCancel, data }: CreateEventThirdProps) {
             </Button>
           </div>
         ))}
-        <button className='grid place-items-center text-sm rounded-3xl border p-4 w-max self-center border-white' onClick={() => append({
+        <button className='grid place-items-center text-sm rounded-3xl border p-4 w-full self-center border-white' onClick={() => append({
           name: '',
           position: ''
         })}>Add Speaker 🗣️</button>
