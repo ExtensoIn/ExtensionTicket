@@ -1,6 +1,7 @@
-import { createLazyFileRoute, useScrollRestoration } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router'
 import ImageLinear from '../../../shared/components/ImageLinear'
 import defaultEvent from '../../../assets/events/defaultEvent.jpg'
+import defaultSpeaker from '../../../assets/events/dafaultSpeaker.png'
 import CustomButton from '../../../shared/components/Button'
 import { useEffect, useState } from 'react';
 import PageBanner from '../../../shared/components/layout/PageBanner';
@@ -14,11 +15,6 @@ interface EventProps {
   eventDate: Date;
   imageUrl?: string;
   backgroundImageUrl?: string;
-}
-
-type Speakers = {
-  nombre: string;
-  cargo: string;
 }
 
 export const Route = createLazyFileRoute('/event/$eventId/')({
@@ -64,7 +60,11 @@ export const Route = createLazyFileRoute('/event/$eventId/')({
         </PageBanner>
       </ImageLinear>
       <AboutEvent description={props.description} days={days} speakers={0} location='42 Drive, Florida, USA' />
-      <Speakers speakers={[]} />
+      <SpeakersSection speakers={[
+        { nombre: 'Speaker 1', cargo: 'CEO' },
+        { nombre: 'Speaker 2', cargo: 'CTO' },
+        { nombre: 'Speaker 3', cargo: 'CFO' },
+      ]} />
     </div>)
   }
 })
@@ -102,25 +102,44 @@ type SquareProps = {
 }
 
 function Square({ title, description }: SquareProps) {
-  return <div className='bg-blue-950 text-white size-24 xs:size-36 flex flex-col text-center justify-center gap-2'>
+  return <div className='bg-blue-950 text-white size-24 xs:size-36 flex flex-col text-center justify-center gap-2 rounded-lg'>
     <h4 className='font-bold text-3xl xs:text-5xl'>{title}</h4>
     <p className='text-sm xs:text-lg'>{description}</p>
   </div>
+}
+
+export type Speakers = {
+  nombre: string;
+  cargo: string;
 }
 
 type SpeakersSection = {
   speakers: Speakers[];
 }
 
-function Speakers({ speakers }: SpeakersSection) {
-  return (
-    <div className='w-full'>
+function SpeakersSection({ speakers }: SpeakersSection) {
 
-      <swiper-container>
-        <swiper-slide>Slide 1</swiper-slide>
-        <swiper-slide>Slide 2</swiper-slide>
-        <swiper-slide>Slide 3</swiper-slide>
-      </swiper-container>
+  return (
+    <section className='bg-purple-200 flex flex-col gap-12 py-8 px-4'>
+      <h2 className='text-4xl font-AbhayaLibre px-12 text-center'>Speakers</h2>
+      <div className='grid grid-cols-1 gap-y-16 gap-x-4 items-center justify-items-center xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4'>
+        {speakers.map((speaker) => <Speaker key={speaker.nombre} {...speaker} />)}
+      </div>
+    </section>
+
+  )
+}
+
+function Speaker({ nombre, cargo }: Speakers) {
+  return (
+    <div className='flex flex-col gap-2 w-40 h-44 smd:w-56 smd:h-48  bg-gradient-to-b from-pink-500 
+    to-blue-700 text-white items-center justify-center relative rounded-lg'>
+      <img src={defaultSpeaker} alt='Speaker' className='size-24 absolute top-[-3rem] rounded-full' />
+
+      <span className='mt-4'>
+        <h4 className='font-bold text-2xl'>{nombre}</h4>
+        <p className='text-lg'>{cargo}</p>
+      </span>
     </div>
   )
 }
