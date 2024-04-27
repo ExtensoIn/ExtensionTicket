@@ -9,6 +9,8 @@
 </tr>
 </table>
 
+# Design
+[FIGMA](https://www.figma.com/file/pITCojMi2PZ8r7aiOMKuun/ExtensionTicket?type=design&node-id=0%3A1&mode=design&t=SWDlqINRuWYbpgft-1)
 
 ## Demo
 
