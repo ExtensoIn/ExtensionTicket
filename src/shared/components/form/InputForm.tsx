@@ -19,6 +19,7 @@ function InputForm({ name, label, type, required, max, min }: InputFormProps) {
                     <MediForm onChange={onChange} name={name} label={label}/>
                 ) : (
                     <Input
+                        aria-label={`Input ${name}`}
                         value={value}
                         classNames={{
                             label: 'z-0',
