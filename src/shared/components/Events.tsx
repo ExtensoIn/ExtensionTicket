@@ -1,11 +1,12 @@
-import Card, { CardProps } from './Card';
+import Card from './Card';
 import bg from '../../assets/home/backgroundHome.webp';
 import { Input } from '@nextui-org/react';
 import CustomButton from './Button';
+import {CardEvent} from "../../connection/types/event.types.ts";
 
 interface EventsProps {
     title: string;
-    events: CardProps[];
+    events: CardEvent[];
     showImage: boolean;
 }
 

@@ -22,6 +22,7 @@ export interface Speaker{
 }
 
 export interface CardEvent {
+    id: number,
     title: string,
     place?: string,
     shortDescription: string,

@@ -3,7 +3,6 @@ import Events from '../shared/components/Events'
 import petIcon from '../assets/home/petIcon.svg'
 import CustomButton from '../shared/components/Button'
 import dogIcon from '../assets/home/dogIcon.svg'
-import { events } from '../data/home/home.data'
 import spotify from '../assets/home/brands/spotify.png'
 import grab from '../assets/home/brands/grab.png'
 import google from '../assets/home/brands/google.png'
@@ -15,25 +14,32 @@ import stripe from '../assets/home/brands/stripe.png'
 import uber from '../assets/home/brands/uber.png'
 import PageBanner from '../shared/components/layout/PageBanner'
 import { Link, createFileRoute } from '@tanstack/react-router'
+import {useQuery} from "@tanstack/react-query";
+import {getEvents} from "../connection/event.ts";
 
 export const Route = createFileRoute('/')({
     component: Home,
 
 })
 
-function Home() {
+async function Home() {
+
+    const {data} = useQuery({
+        queryKey: ['events'],
+        queryFn: () => getEvents(10, 0, undefined)
+    })
     return (
         <div className='flex flex-col'>
             <ImageLinear height='100vh'>
-                <HomeBanner />
+                <HomeBanner/>
             </ImageLinear>
             <Events
                 title='Upcoming Events'
-                events={events}
+                events={data||[]}
                 showImage={true}
             />
-            <CreateEvent />
-            <Brands />
+            <CreateEvent/>
+            <Brands/>
         </div>
     )
 }

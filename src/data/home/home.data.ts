@@ -1,36 +1,49 @@
-export const events = [
+import {CardEvent} from "../../connection/types/event.types.ts";
+
+export const events:CardEvent[] = [
     {
-        id: "1",
+        id: 1,
         title: "Event 1",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-        date: new Date(),
+        shortDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+        startDate: new Date(),
+        banner: "",
+        categories: [],
+        eventType: "OnSite"
     },
     {
-        id: "2",
+        id: 2,
         title: "Event 2",
-        description: "Description 2",
-        date: new Date(),
-        imageUrl: "https://via.placeholder.com/1000x600",
+        shortDescription: "Description 2",
+        startDate: new Date(),
+        banner: "https://via.placeholder.com/1000x600",
+        categories: [],
+        eventType: "OnSite"
     },
     {
-        id: "3",
+        id: 3,
         title: "Event 3",
-        description: "Description 3",
-        date: new Date(),
-        imageUrl: "https://via.placeholder.com/1000x600",
+        shortDescription: "Description 3",
+        startDate: new Date(),
+        banner: "https://via.placeholder.com/1000x600",
+        categories: [],
+        eventType: "OnSite"
     },
     {
-        id: "4",
+        id: 4,
         title: "Event 1",
-        description: "Description 1",
-        date: new Date(),
-        imageUrl: "https://via.placeholder.com/1000x600",
+        shortDescription: "Description 1",
+        startDate: new Date(),
+        banner: "https://via.placeholder.com/1000x600",
+        categories: [],
+        eventType: "OnSite"
     },
     {
-        id: "5",
+        id: 5,
         title: "Event 2",
-        description: "Description 2",
-        date: new Date(),
-        imageUrl: "https://via.placeholder.com/1000x600",
+        shortDescription: "Description 2",
+        startDate: new Date(),
+        banner: "https://via.placeholder.com/1000x600",
+        categories: [],
+        eventType: "OnSite"
     },
 ];

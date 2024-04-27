@@ -90,6 +90,7 @@ export async function getEvents(limit: number, offset: number, filter?: [Filter]
     return getEventsResult.map(event => {
         const  eventType = getEventType(event.eventType)
         return {
+            id: Number(event.id),
             title: event.title,
             place: event.place.length === 0 ? undefined : event.place[0],
             shortDescription: event.shortDescription,
@@ -107,6 +108,7 @@ export async function getMyEvents(identity: Identity): Promise<CardEvent[]>{
     return getEventsResult.map(event => {
         const  eventType = getEventType(event.eventType)
         return {
+            id: Number(event.id),
             title: event.title,
             place: event.place.length === 0 ? undefined : event.place[0],
             shortDescription: event.shortDescription,
