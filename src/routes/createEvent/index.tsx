@@ -16,18 +16,18 @@ export const Route = createFileRoute('/createEvent/')({
   component: CreateEvent
 })
 
-type CustomDate = {
-  day: number;
-  month: number;
-  year: number;
-}
+// type CustomDate = {
+//   day: number;
+//   month: number;
+//   year: number;
+// }
 
-type CustomTime = {
-  hour: number;
-  minute: number;
-  second: number;
-  millisecond: number;
-}
+// type CustomTime = {
+//   hour: number;
+//   minute: number;
+//   second: number;
+//   millisecond: number;
+// }
 
 interface CreateEventForm {
   titulo: string;
@@ -61,6 +61,17 @@ function CreateEvent() {
 
   const onsubmitSecond = (data: AnyContext) => {
     console.log(data);
+    // addEvent(auth.authClient.getIdentity(), {
+    //   title: data.titulo,
+    //   shortDescription: data.shortDescription,
+    //   price: data.precio,
+    //   eventType: data.tipoEvento,
+    //   categories: data.categorias,
+    //   startDate: data.date.start,
+    //   endDate: data.date.end,
+    //   id: 1,
+    //   status: 'NotStarted'
+    // })
   }
 
   return (
@@ -78,18 +89,6 @@ function CreateEvent() {
         )}
       </AnimatePresence>
     </ImageLinear>
-  )
-}
-
-type DoubleInputProps = {
-  children: ReactNode;
-}
-
-function DoubleInput({ children }: DoubleInputProps) {
-  return (
-    <div className='flex flex-col xs:flex-row gap-4'>
-      {children}
-    </div>
   )
 }
 
@@ -166,23 +165,23 @@ function CreateEventSecond(props: CreateEventSecondProps) {
 }
 
 
-interface CreateEventThirdProps {
-  onsubmit: (data: CreateEventForm) => void;
-}
+// interface CreateEventThirdProps {
+//   onsubmit: (data: CreateEventForm) => void;
+// }
 
 
-function CreateEventThird(props: CreateEventThirdProps) {
-  const methods = useForm<CreateEventForm>();
+// function CreateEventThird(props: CreateEventThirdProps) {
+//   const methods = useForm<CreateEventForm>();
 
-  return (
-    <FormProvider {...methods}>
-      <form className='bg-[#000000d9] backdrop-blur-[2px] flex flex-col p-4 py-8 xs:p-8 gap-4 rounded-xl' onSubmit={methods.handleSubmit(props.onsubmit)}>
-        <InputForm name='titulo' label="Event's name" type='text' />
-        <CustomButton buttonType='submit'>{'Next ->'}</CustomButton>
-      </form>
-    </FormProvider>
-  )
-}
+//   return (
+//     <FormProvider {...methods}>
+//       <form className='bg-[#000000d9] backdrop-blur-[2px] flex flex-col p-4 py-8 xs:p-8 gap-4 rounded-xl' onSubmit={methods.handleSubmit(props.onsubmit)}>
+//         <InputForm name='titulo' label="Event's name" type='text' />
+//         <CustomButton buttonType='submit'>{'Next ->'}</CustomButton>
+//       </form>
+//     </FormProvider>
+//   )
+// }
 
 interface AnimateTransitionProps {
   children: ReactNode;

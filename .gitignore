@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Blockchain
+.mops
+.dfx
+src/declarations

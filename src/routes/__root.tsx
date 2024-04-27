@@ -3,6 +3,7 @@ import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import Header from '../shared/components/layout/Header'
 import NotFound from '../shared/components/NotFound'
 import Footer from '../shared/components/layout/Footer'
+import { Toaster } from 'sonner'
 
 export const Route = createRootRoute({
     component: Layout,
@@ -19,6 +20,7 @@ function Layout() {
             <Header />
             <Outlet />
             <Footer />
+            <Toaster />
             <TanStackRouterDevtools />
         </main>
     )

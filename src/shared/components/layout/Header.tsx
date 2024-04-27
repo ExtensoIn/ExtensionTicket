@@ -3,8 +3,12 @@ import ticketIcon from '../../../assets/ticketIcon.svg'
 import { Link } from '@tanstack/react-router'
 import { IconoirProvider, Menu } from 'iconoir-react';
 import { AnimatePresence, motion } from 'framer-motion';
+import useAuth from '../../hooks/useAuth';
+import { toast } from 'sonner';
+import { useQuery } from '@tanstack/react-query';
 
 function Header() {
+    const { auth } = useAuth();
     const linkList = [
         { name: 'Schedule', url: '/schedule' },
         { name: 'Events', url: '/events' },
@@ -30,6 +34,29 @@ function Header() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    const isAuthenticated = useQuery({
+        queryKey: ['isAuthenticated'],
+        queryFn: async () => {
+            return auth.authClient.isAuthenticated()
+        },
+        refetchOnWindowFocus: true
+    })
+
+    const login = () => {
+        auth.authClient.login({
+            // 7 days in nanoseconds
+            maxTimeToLive: BigInt(7 * 24 * 60 * 60 * 1000 * 1000 * 1000),
+            onSuccess: async () => {
+                toast.success("Logged in succsesfully!")
+            }
+        })
+    }
+
+    const logout = () => {
+        auth.authClient.logout()
+        toast.warning('Logged out')
+    }
+
 
     return (
         <header autoFocus className="bg-transparent fixed w-full top-4 z-30 flex text-white px-10 md:px-20 lg:px-40">
@@ -49,10 +76,11 @@ function Header() {
                 </Link>
                 <ul className='hidden sm:flex gap-2 font-DMSans items-center'>
                     {linkList.map((link: { name: string, url: string }) => (
-                        link.name === 'Login' ? <Link key={link.url} to={link.url} className='hover:bg-white hover:text-purple-800 border-1 border-white rounded-[2rem] px-4 py-2'>{link.name}</Link> :
+                        link.name === 'Login' ? !isAuthenticated?.data ?
+                            <button key={link.url} onClick={() => login()} className='hover:bg-white hover:text-purple-800 border-1 border-white rounded-[2rem] px-4 py-2'>Login</button> :
+                            <button key={link.url} onClick={() => logout()} className='hover:bg-white hover:text-purple-800 border-1 border-white rounded-[2rem] px-4 py-2'>Logout</button> :
                             <Link key={link.url} to={link.url} className='hover:underline decoration-purple-800 decoration-[3px]'>{link.name}</Link>
                     ))}
-
                 </ul>
                 <button onClick={() => setMenuOpen(true)} className='sm:hidden w-6 h-6'>
                     <IconoirProvider>
