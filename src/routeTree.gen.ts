@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as CreateEventIndexImport } from './routes/createEvent/index'
 
 // Create Virtual Routes
 
@@ -38,6 +39,11 @@ const LoginIndexLazyRoute = LoginIndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/login/index.lazy').then((d) => d.Route))
 
+const CreateEventIndexRoute = CreateEventIndexImport.update({
+  path: '/createEvent/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const EventEventIdIndexLazyRoute = EventEventIdIndexLazyImport.update({
   path: '/event/$eventId/',
   getParentRoute: () => rootRoute,
@@ -57,6 +63,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
     }
+    '/createEvent/': {
+      preLoaderRoute: typeof CreateEventIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/login/': {
       preLoaderRoute: typeof LoginIndexLazyImport
       parentRoute: typeof rootRoute
@@ -73,6 +83,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
   AboutLazyRoute,
+  CreateEventIndexRoute,
   LoginIndexLazyRoute,
   EventEventIdIndexLazyRoute,
 ])

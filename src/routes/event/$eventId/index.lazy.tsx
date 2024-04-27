@@ -65,6 +65,7 @@ export const Route = createLazyFileRoute('/event/$eventId/')({
         { nombre: 'Speaker 2', cargo: 'CTO' },
         { nombre: 'Speaker 3', cargo: 'CFO' },
       ]} />
+      {/* TODO Add the upcoming events section here */}
     </div>)
   }
 })

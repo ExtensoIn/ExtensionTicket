@@ -17,7 +17,9 @@ function Footer() {
                     <FooterSection title='Plan Events' links={planEvents} />
                     <FooterSection title='ExtensionTicket' links={aboutUs} />
                 </div>
-                <CustomButton>Create Event</CustomButton>
+                <Link>
+                    <CustomButton>Create Event</CustomButton>
+                </Link>
             </div>
             <div className='w-full flex-col flex items-center gap-2'>
                 <span className='w-[80%] h-[1px] bg-slate-100 md:'></span>

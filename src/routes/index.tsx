@@ -14,7 +14,7 @@ import medium from '../assets/home/brands/medium.png'
 import stripe from '../assets/home/brands/stripe.png'
 import uber from '../assets/home/brands/uber.png'
 import PageBanner from '../shared/components/layout/PageBanner'
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
     component: Home,
@@ -48,7 +48,9 @@ function HomeBanner() {
         <div className='flex flex-col h-full w-full justify-center items-center'>
             <PageBanner imgSrc={homeInfo.imgSrc} title={homeInfo.title} description={homeInfo.description}>
                 <span className='flex gap-4 w-full flex-col justify-center xs:flex-row md:justify-start'>
-                    <CustomButton>Create event</CustomButton>
+                    <Link to='/createEvent'>
+                        <CustomButton>Create event</CustomButton>
+                    </Link>
                     <CustomButton type='secondary'>Get Tickets</CustomButton>
                 </span>
             </PageBanner>

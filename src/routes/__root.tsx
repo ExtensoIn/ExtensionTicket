@@ -14,7 +14,7 @@ export const Route = createRootRoute({
 
 function Layout() {
     return (
-        <main>
+        <main className='dark'>
             <ScrollRestoration getKey={(location) => location.pathname} />
             <Header />
             <Outlet />
