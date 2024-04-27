@@ -75,6 +75,11 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
 	};
 
 	return {
+		esbuild: {
+			supported: {
+				'top-level-await': true
+			}
+		},
 		plugins: [react(), TanStackRouterVite()],
 		// Backwards compatibility for auto generated types of dfx that are meant for webpack and process.env
 		define: {
