@@ -1,9 +1,11 @@
 import { createLazyFileRoute, useScrollRestoration } from '@tanstack/react-router'
 import ImageLinear from '../../../shared/components/ImageLinear'
-import mainPhoto from '../../../assets/home/backgroundHome.webp'
+import defaultEvent from '../../../assets/events/defaultEvent.jpg'
 import CustomButton from '../../../shared/components/Button'
 import { useEffect, useState } from 'react';
 import PageBanner from '../../../shared/components/layout/PageBanner';
+import CountDown from '../../../shared/components/CountDown';
+import { IconoirProvider, MapPin } from 'iconoir-react';
 
 interface EventProps {
   eventId: number;
@@ -14,6 +16,10 @@ interface EventProps {
   backgroundImageUrl?: string;
 }
 
+type Speakers = {
+  nombre: string;
+  cargo: string;
+}
 
 export const Route = createLazyFileRoute('/event/$eventId/')({
   component: (props: EventProps) => {
@@ -48,72 +54,73 @@ export const Route = createLazyFileRoute('/event/$eventId/')({
     const minutes = Math.floor((timeLeft % (60 * 60)) / 60);
     const seconds = Math.floor(timeLeft % 60);
 
-    return (<>
+    return (<div className='flex flex-col'>
       <ImageLinear height='100vh'>
         <PageBanner imgSrc={props.imageUrl} title={props.title} description={props.description} imgMaxWidth='large'>
-          <span className='max-w-72 flex flex-col gap-6 px-8'>
+          <span className='w-full flex flex-col gap-4'>
             <CustomButton>Get Tickets</CustomButton>
-            <div className='flex gap-4 w-full '>
-              <div className="flex flex-col items-center">
-                <span className='text-6xl font-AbhayaLibre font-extrabold'>{days}</span>
-                <span className='text-lg font-AbhayaLibre font-semibold'>Days</span>
-              </div>
-              <span className="text-6xl font-AbhayaLibre font-extrabold">:</span>
-              <div className="flex flex-col items-center">
-                <span className='text-6xl font-AbhayaLibre font-extrabold'>{hours}</span>
-                <span className='text-lg font-AbhayaLibre font-semibold'>Hours</span>
-              </div>
-              <span className="text-6xl font-AbhayaLibre font-extrabold">:</span>
-              <div className="flex flex-col items-center">
-                <span className='text-6xl font-AbhayaLibre font-extrabold'>{minutes}</span>
-                <span className='text-lg font-AbhayaLibre font-semibold'>Minutes</span>
-              </div>
-              <span className="text-6xl font-AbhayaLibre font-extrabold">:</span>
-              <div className="flex flex-col items-center">
-                <span className='text-6xl font-AbhayaLibre font-extrabold'>{seconds}</span>
-                <span className='text-lg font-AbhayaLibre font-semibold'>Seconds</span>
-              </div>
-            </div>
+            <CountDown days={days} hours={hours} minutes={minutes} seconds={seconds} />
           </span>
         </PageBanner>
-        {/* <div className='flex flex-col h-full w-full justify-center items-center'>
-          <section className='w-full flex flex-wrap gap-7 justify-between items-center px-10 md:px-40'>
-            <div className="relative">
-              <img src={props.imageUrl || mainPhoto} alt="Extension Ticket main image event" className="max-w-80 md:max-w-96" />
-              <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t 
-                            from-black to-transparent rounded-full shadow-md transform -skew-y-3  z-0
-                            translate-x-3 translate-y-7 blur-xl"></div>
-            </div>
-
-            <span className='max-w-96 flex flex-col gap-6'>
-              <h1 className='text-4xl font-AbhayaLibre font-light'>{props.title}</h1>
-              <p className='font-AbhayaLibre text-lg'>{props.description}</p>
-              <CustomButton>Get Tickets</CustomButton>
-              <div className='flex gap-4 w-full '>
-                <div className="flex flex-col items-center">
-                  <span className='text-6xl font-AbhayaLibre font-extrabold'>{days}</span>
-                  <span className='text-lg font-AbhayaLibre font-semibold'>Days</span>
-                </div>
-                <span className="text-6xl font-AbhayaLibre font-extrabold">:</span>
-                <div className="flex flex-col items-center">
-                  <span className='text-6xl font-AbhayaLibre font-extrabold'>{hours}</span>
-                  <span className='text-lg font-AbhayaLibre font-semibold'>Hours</span>
-                </div>
-                <span className="text-6xl font-AbhayaLibre font-extrabold">:</span>
-                <div className="flex flex-col items-center">
-                  <span className='text-6xl font-AbhayaLibre font-extrabold'>{minutes}</span>
-                  <span className='text-lg font-AbhayaLibre font-semibold'>Minutes</span>
-                </div>
-                <span className="text-6xl font-AbhayaLibre font-extrabold">:</span>
-                <div className="flex flex-col items-center">
-                  <span className='text-6xl font-AbhayaLibre font-extrabold'>{seconds}</span>
-                  <span className='text-lg font-AbhayaLibre font-semibold'>Seconds</span>
-                </div>
-              </div>
-            </span>
-          </section>
-        </div> */}
       </ImageLinear>
-    </>)
+      <AboutEvent description={props.description} days={days} speakers={0} location='42 Drive, Florida, USA' />
+      <Speakers speakers={[]} />
+    </div>)
   }
 })
+
+type AboutEventProps = {
+  description: string;
+  location?: string;
+  speakers?: number;
+  days: number;
+}
+
+function AboutEvent({ description, location, speakers, days }: AboutEventProps) {
+  return (
+    <section className='text-blue-950 p-4 smd:p-8 md:p-16'>
+      <PageBanner imgSrc={defaultEvent} title='About the Event' description={description} imgMaxWidth='normal'>
+        {location && <span className='flex gap-2 justify-center items-center smd:justify-start'>
+          <IconoirProvider>
+            <MapPin className='hidden md:block' />
+          </IconoirProvider>
+          <h4 className='font-bold text-xl'>{location}</h4>
+        </span>}
+        <span className='flex gap-8 justify-center smd:justify-start'>
+          <Square title={`${speakers}`} description={speakers ? `${speakers} Speakers` : 'No speakers'} />
+          <Square title={`${days}`} description={`${days} days`} />
+        </span>
+      </PageBanner>
+
+    </section>
+  )
+}
+
+type SquareProps = {
+  title: string;
+  description: string;
+}
+
+function Square({ title, description }: SquareProps) {
+  return <div className='bg-blue-950 text-white size-24 xs:size-36 flex flex-col text-center justify-center gap-2'>
+    <h4 className='font-bold text-3xl xs:text-5xl'>{title}</h4>
+    <p className='text-sm xs:text-lg'>{description}</p>
+  </div>
+}
+
+type SpeakersSection = {
+  speakers: Speakers[];
+}
+
+function Speakers({ speakers }: SpeakersSection) {
+  return (
+    <div className='w-full'>
+
+      <swiper-container>
+        <swiper-slide>Slide 1</swiper-slide>
+        <swiper-slide>Slide 2</swiper-slide>
+        <swiper-slide>Slide 3</swiper-slide>
+      </swiper-container>
+    </div>
+  )
+}
