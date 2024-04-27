@@ -1,15 +1,3 @@
-export enum EventStatus {
-    Finished,
-    NotStarted,
-    Started
-}
-
-export enum EventType {
-    OnSite,
-    Online,
-    Hybrid
-}
-
 export interface Event {
     id: number
     title: string
@@ -19,9 +7,9 @@ export interface Event {
     startDate: number
     endDate: number
     ticketsAmount: number
-    status: EventStatus
+    status: "Finished" | "NotStarted" | "Started"
     categories: string[]
-    eventType: EventType
+    eventType: "OnSite" | "Online" | "Hybrid"
     price: number
     banner?: string
     imagenPrincipal?: string
@@ -40,5 +28,5 @@ export interface CardEvent {
     startDate: Date,
     banner?: string,
     categories: string[],
-    eventType: EventType,
+    eventType: "OnSite" | "Online" | "Hybrid",
 }

@@ -2,7 +2,7 @@ import {EventError} from "./errors/eventError.ts";
 import {makeEventActor} from "./actors.ts";
 import {Identity} from "@dfinity/agent";
 import {Event__1, Filter, Result, EventType as EventTypeCanister, Status} from "../declarations/event/event.did";
-import {CardEvent, Event, EventStatus, EventType} from "./types/event.types.ts";
+import {CardEvent, Event} from "./types/event.types.ts";
 
 export async function addEvent(identity: Identity, event: Event): Promise<Event>{
     const actor = makeEventActor(identity);
@@ -62,25 +62,25 @@ export async function addEventByEmail(email: string, event: Event): Promise<Even
     return event
 }
 
-function getEventType(eventType: EventTypeCanister): EventType{
+function getEventType(eventType: EventTypeCanister): "OnSite" | "Online" | "Hybrid"{
     switch (eventType) {
         case { 'Online' : null }:
-            return  EventType.Online
+            return  "Online"
         case { 'Hybrid' : null }:
-            return EventType.Hybrid
+            return "Hybrid"
         default:
-            return  EventType.OnSite
+            return  "OnSite"
     }
 }
 
-function getEventStatus(status: Status): EventStatus{
+function getEventStatus(status: Status): "Finished" | "NotStarted" | "Started"{
     switch (status) {
         case {'NotStarted': null}:
-            return EventStatus.NotStarted
+            return "NotStarted"
         case {'Started': null}:
-            return EventStatus.Started
+            return "Started"
         default:
-            return EventStatus.Finished
+            return "Finished"
     }
 }
 
@@ -88,7 +88,7 @@ export async function getEvents(limit: number, offset: number, filter?: [Filter]
     const actor = makeEventActor();
     const getEventsResult: Event__1[] = await actor.getEvents(limit, offset, filter ?? [])
     return getEventsResult.map(event => {
-        const  eventType: EventType = getEventType(event.eventType)
+        const  eventType = getEventType(event.eventType)
         return {
             title: event.title,
             place: event.place.length === 0 ? undefined : event.place[0],
@@ -105,7 +105,7 @@ export async function getMyEvents(identity: Identity): Promise<CardEvent[]>{
     const actor = makeEventActor(identity);
     const getEventsResult: Event__1[] = await actor.getMyEvents()
     return getEventsResult.map(event => {
-        const  eventType: EventType = getEventType(event.eventType)
+        const  eventType = getEventType(event.eventType)
         return {
             title: event.title,
             place: event.place.length === 0 ? undefined : event.place[0],
