@@ -20,6 +20,16 @@ The WebApp is compatible with devices of all sizes and all OS's, and consistent 
 
 ![image](https://github.com/ExtensoIn/ExtensionTicket/assets/60782043/73d418f5-38c6-4331-87b3-5d115e0c65ef)
 
+## How to run
+### Requirements
+- Have linux or mac, in windows install WSL 2
+- Install [DFX](https://internetcomputer.org/docs/current/developer-docs/getting-started/install/#using-the-dfx-version-manager) tool, and run ```dfx cache install```
+- Install node and npm
+### Run
+- Install mops package ```npm i -g ic-mops```
+- Run ```mops install```, on the root of project
+- Open a new terminal and run ```dfx start --clean```
+- In the first terminal, run ```npm run deploy:local```
 
 
 
