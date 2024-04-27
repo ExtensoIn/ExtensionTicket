@@ -21,7 +21,7 @@ actor class User(initArgs : Type.InitArgs) {
   type TxEvent = TypeNft.TxEvent;
   type EventId = TypeEvent.EventId;
   type Result<T, K> = Result.Result<T, K>;
-  let nftController = actor ("be2us-64aaa-aaaaa-qaabq-cai") : actor {
+  let nftController = actor ("tmuqx-siaaa-aaaan-qd6ya-cai") : actor {
     mint : (Principal, Nat, [(Text, GenericValue)]) -> async Result<Nat, NftError>;
     transaction: (Nat) -> async Result<TxEvent, NftError>;
   };

@@ -1,0 +1,14 @@
+{
+  "frontend": {
+    "ic": "pr27f-vqaaa-aaaan-qmhqa-cai"
+  },
+  "dip721": {
+    "ic": "tmuqx-siaaa-aaaan-qd6ya-cai"
+  },
+  "event": {
+    "ic": "g6qs5-gyaaa-aaaan-ql6mq-cai"
+  },
+  "user": {
+    "ic": "gxtzb-qqaaa-aaaan-ql6na-cai"
+  }
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 TIME=$(($(date +%s) * 1000000000))
-dfx deploy --argument "(
+dfx deploy --ic --argument "(
   record {
     logo = opt(\"El Pais SA\");
     name = opt(\"Acciones El Pais SA\");
@@ -11,18 +11,19 @@ dfx deploy --argument "(
     symbol = opt(\"EPSA\");
   }
 )" dip721
-dfx deploy --argument "(
+dfx deploy --ic --argument "(
   record {
     custodians = vec{principal\"$(dfx identity get-principal)\"};
   }
 )" user
-dfx deploy --argument "(
+dfx deploy --ic --argument "(
   record {
     custodians = vec{principal\"$(dfx identity get-principal)\"};
   }
 )" event
-dfx deploy
+dfx deploy --ic
 #dfx canister call nft_container burn_multiple "(principal\"pull7-q674a-k45ci-gofwh-rxtd2-2l6eq-vgbkb-lldde-rbj5z-i6jex-zae\", \"Superacciones1234567890\")"
 #dfx canister call registro_acciones getActionsMap
 #dfx canister call nft_container mint "(principal\"52zh7-yhqdf-s7ufz-6gcjz-wpohn-m5puo-nbvfs-u7jmm-ekvai-7avbl-qae\", 22, vec{record{\"prueba\"; variant{TextContent=\"prueba\"}}})"
 #dfx canister call nft_container burn "(19)"
+
