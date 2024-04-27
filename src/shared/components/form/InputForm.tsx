@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import ControlledInput from './ControlledInput';
-import { Input, Image } from '@nextui-org/react';
+import { Input } from '@nextui-org/react';
+import MediForm from "./MediaForm.tsx";
 
 type InputFormProps = {
     name: string;
@@ -12,40 +12,11 @@ type InputFormProps = {
 };
 
 function InputForm({ name, label, type, required, max, min }: InputFormProps) {
-    const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-
     return (
         <ControlledInput name={name} required={required} max={max} min={min}>
             {({ onChange, value }) =>
                 type === 'media' ? (
-                    <>
-                        <label htmlFor={name} className="cursor-pointer">
-                            <p className="text-sm text-gray-500 mb-2">{label}</p>
-                            <Image
-                                src={uploadedImage || 'https://via.placeholder.com/1000x600'}
-                                alt={label}
-                                className="rounded-lg w-96 h-96 object-cover"
-                            />
-                            <input
-                                id={name}
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                        const reader = new FileReader();
-                                        reader.onload = (event) => {
-                                            const imageDataUrl = event.target?.result as string;
-                                            setUploadedImage(imageDataUrl);
-                                            onChange(imageDataUrl);
-                                        };
-                                        reader.readAsDataURL(file);
-                                    }
-                                }}
-                            />
-                        </label>
-                    </>
+                    <MediForm onChange={onChange} name={name} label={label}/>
                 ) : (
                     <Input
                         value={value}
@@ -54,7 +25,7 @@ function InputForm({ name, label, type, required, max, min }: InputFormProps) {
                         }}
                         label={label}
                         type={type}
-                        onValueChange={(value: any) => {
+                        onValueChange={(value) => {
                             if (type === 'number') {
                                 onChange(parseFloat(value));
                             } else {
