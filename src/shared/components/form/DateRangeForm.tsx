@@ -15,7 +15,6 @@ function DateRangeForm({ name, label }: DateRangeFormProps) {
                     <DateRangePicker
                         value={value}
                         onChange={onChange}
-                        aria-label={`Date Range Input ${name}`}
                     />
                 </span>
             )}

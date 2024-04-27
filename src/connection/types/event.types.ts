@@ -1,7 +1,9 @@
 export interface Event {
     id: number
     title: string
+    place?: string
     shortDescription: string
+    longDescription?: string
     startDate: number
     endDate: number
     ticketsAmount: number
@@ -9,8 +11,6 @@ export interface Event {
     categories: string[]
     eventType: "OnSite" | "Online" | "Hybrid"
     price: number
-    longDescription?: string
-    place?: string
     banner?: string
     imagenPrincipal?: string
     speakers?: Speaker[]

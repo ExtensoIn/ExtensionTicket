@@ -12,7 +12,7 @@ type InputFormProps = {
     children: (props: { onChange: ChangeHandler, value: any }) => ReactNode;
 }
 
-function ControlledInput({ name, children, required = "The field is required", min, max }: InputFormProps) {
+function ControlledInput({ name, children, required = "El campo es requerido", min, max }: InputFormProps) {
     const { control, formState, } = useFormContext();
     const validate = {
         min,
