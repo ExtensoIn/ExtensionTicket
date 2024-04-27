@@ -95,9 +95,15 @@ function Header() {
                         animate="visible"
                         exit="exit" onClick={(event) => event.stopPropagation()} className='w-[70%] 2xs:w-[45%] relative left-2 bg-[#000000b3] rounded-l-[1.5rem] backdrop-blur-[2px] h-[100dvh] shadow-2xl'>
                         <ul className='flex flex-col gap-2 items-center h-full p-8 '>
-                            {linkList.map((link: { name: string, url: string }) => (
-                                <Link key={link.url} to={link.url} className='hover:underline decoration-purple-800 decoration-[3px]'>{link.name}</Link>
-                            ))}
+                            {linkList.map((link: { name: string, url: string }) => {
+                                if (link.name === 'Login' && isAuthenticated.data)
+                                    return <button onClick={() => logout} key={link.url} className='hover:underline decoration-purple-800 decoration-[3px]'>Logout</button>
+                                else if (!isAuthenticated.data)
+                                    return <button onClick={() => login} key={link.url} className='hover:underline decoration-purple-800 decoration-[3px]'>Login</button>
+                                return (
+                                    <Link key={link.url} to={link.url} className='hover:underline decoration-purple-800 decoration-[3px]'>{link.name}</Link>
+                                )
+                            })}
                         </ul>
                     </motion.div>
                 </div>}

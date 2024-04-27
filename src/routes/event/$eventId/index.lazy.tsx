@@ -79,7 +79,7 @@ type AboutEventProps = {
 
 function AboutEvent({ description, location, speakers, days }: AboutEventProps) {
   return (
-    <section className='text-blue-950 p-4 smd:p-8 md:p-16'>
+    <section className='text-blue-950 p-4 smd:p-16 md:p-8'>
       <PageBanner imgSrc={defaultEvent} title='About the Event' description={description} imgMaxWidth='normal'>
         {location && <span className='flex gap-2 justify-center items-center smd:justify-start'>
           <IconoirProvider>
@@ -121,7 +121,7 @@ type SpeakersSection = {
 function SpeakersSection({ speakers }: SpeakersSection) {
 
   return (
-    <section className='bg-purple-200 flex flex-col gap-12 py-8 px-4'>
+    <section className='bg-purple-200 flex flex-col gap-12 p-4 smd:p-16 md:p-8'>
       <h2 className='text-4xl font-AbhayaLibre px-12 text-center'>Speakers</h2>
       <div className='grid grid-cols-1 gap-y-16 gap-x-4 items-center justify-items-center xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4'>
         {speakers.map((speaker) => <Speaker key={speaker.nombre} {...speaker} />)}

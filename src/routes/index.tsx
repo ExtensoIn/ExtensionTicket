@@ -14,11 +14,10 @@ import medium from '../assets/home/brands/medium.png'
 import stripe from '../assets/home/brands/stripe.png'
 import uber from '../assets/home/brands/uber.png'
 import PageBanner from '../shared/components/layout/PageBanner'
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
     component: Home,
-
 })
 
 function Home() {
@@ -39,6 +38,7 @@ function Home() {
 }
 
 function HomeBanner() {
+    const navigate = useNavigate();
     const homeInfo = {
         imgSrc: petIcon,
         title: 'Unlock the blockchain power, one ticket at a time',
@@ -48,9 +48,9 @@ function HomeBanner() {
         <div className='flex flex-col h-full w-full justify-center items-center'>
             <PageBanner imgSrc={homeInfo.imgSrc} title={homeInfo.title} description={homeInfo.description}>
                 <span className='flex gap-4 w-full flex-col justify-center xs:flex-row md:justify-start'>
-                    <Link to='/createEvent'>
-                        <CustomButton>Create event</CustomButton>
-                    </Link>
+                    <CustomButton onClick={() => navigate({
+                        to: '/createEvent'
+                    })}>Create event</CustomButton>
                     <CustomButton type='secondary'>Get Tickets</CustomButton>
                 </span>
             </PageBanner>
@@ -59,13 +59,18 @@ function HomeBanner() {
 }
 
 function CreateEvent() {
+
+    const navigate = useNavigate()
+
     return (
         <section className='font-DMSans bg-purple-200 w-full flex flex-col gap-4 md:gap-10 justify-center items-center px-6 pb-6 md:max-h-64 md:flex-row'>
             <img className='relative md:bottom-20' src={dogIcon} alt="Dog banner icon" />
             <span className='flex flex-col gap-2 text-center md:text-left'>
                 <h3 className='text-3xl font-bold '>Make your own event</h3>
                 <p>Start creating your own event and sell tickets</p>
-                <CustomButton>Create event</CustomButton>
+                <CustomButton onClick={() => navigate({
+                    to: '/createEvent'
+                })}>Create event</CustomButton>
             </span>
         </section>
     )

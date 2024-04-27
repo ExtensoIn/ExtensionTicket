@@ -15,6 +15,7 @@ function TimeForm({ name, label }: TimeFormProps) {
                     <TimeInput
                         value={value}
                         onChange={onChange}
+                        aria-label={`Time Input ${name}`}
                     />
                 </span>
             )}
