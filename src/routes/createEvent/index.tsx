@@ -1,4 +1,4 @@
-import { ReactNode, createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Speakers } from '../event/$eventId/index.lazy';
 import ImageLinear from '../../shared/components/ImageLinear';
@@ -9,23 +9,26 @@ import { DateValue, RangeValue, TimeInputValue } from '@nextui-org/react';
 import AutocompleteForm from '../../shared/components/form/AutocompleteForm';
 import SelectForm from '../../shared/components/form/SelectForm';
 import CustomButton from '../../shared/components/Button';
+// import { addEvent } from '../../connection/event';
+// import useAuth from '../../shared/hooks/useAuth';
+// import { Event, EventStatus, EventType } from '../../connection/types/event.types';
 
 export const Route = createFileRoute('/createEvent/')({
   component: CreateEvent
 })
 
-type CustomDate = {
-  day: number;
-  month: number;
-  year: number;
-}
+// type CustomDate = {
+//   day: number;
+//   month: number;
+//   year: number;
+// }
 
-type CustomTime = {
-  hour: number;
-  minute: number;
-  second: number;
-  millisecond: number;
-}
+// type CustomTime = {
+//   hour: number;
+//   minute: number;
+//   second: number;
+//   millisecond: number;
+// }
 
 interface CreateEventForm {
   titulo: string;
@@ -44,9 +47,21 @@ interface CreateEventForm {
 }
 
 function CreateEvent() {
+  // const {auth} = useAuth();
   const methods = useForm<CreateEventForm>();
   const onsubmit = (data: CreateEventForm) => {
     console.log(data);
+    // addEvent(auth.authClient.getIdentity(), {
+    //   title: data.titulo,
+    //   shortDescription: data.shortDescription,
+    //   price: data.precio,
+    //   eventType: data.tipoEvento,
+    //   categories: data.categorias,
+    //   startDate: data.date.start,
+    //   endDate: data.date.end,
+    //   id: 1,
+    //   status: 'NotStarted'
+    // })
   }
   return (
     <ImageLinear height='100dvh'>
@@ -64,7 +79,7 @@ function CreateEvent() {
             <InputForm name='tickets' label='Number of tickets available' type='number' />
             <InputForm name='precio' label="Ticket's Price" type='number' />
 
-            <AutocompleteForm name='tipoEvento' label='Event categories' items={[
+            <AutocompleteForm name='tipoEvento' label='Event type' items={[
               { value: 'presencial', label: 'On Site' },
               { value: 'virtual', label: 'Virtual' },
               { value: 'hibrido', label: 'Hybrid' }
@@ -81,17 +96,5 @@ function CreateEvent() {
         </form>
       </FormProvider>
     </ImageLinear>
-  )
-}
-
-type DoubleInputProps = {
-  children: ReactNode;
-}
-
-function DoubleInput({ children }: DoubleInputProps) {
-  return (
-    <div className='flex flex-col xs:flex-row gap-4'>
-      {children}
-    </div>
   )
 }
