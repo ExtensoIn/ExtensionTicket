@@ -1,4 +1,3 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
 import ImageLinear from '../shared/components/ImageLinear'
 import Events from '../shared/components/Events'
 import petIcon from '../assets/home/petIcon.svg'
@@ -14,46 +13,45 @@ import youtube from '../assets/home/brands/youtube.png'
 import medium from '../assets/home/brands/medium.png'
 import stripe from '../assets/home/brands/stripe.png'
 import uber from '../assets/home/brands/uber.png'
+import PageBanner from '../shared/components/layout/PageBanner'
+import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createLazyFileRoute('/')({
-    component: Index,
+export const Route = createFileRoute('/')({
+    component: Home,
+
 })
 
-function Index() {
-
+function Home() {
     return (
-        <div className='flex flex-col relative'>
+        <div className='flex flex-col'>
             <ImageLinear height='100vh'>
                 <HomeBanner />
             </ImageLinear>
-
             <Events
                 title='Upcoming Events'
                 events={events}
                 showImage={true}
             />
-
             <CreateEvent />
-
             <Brands />
         </div>
     )
 }
 
 function HomeBanner() {
+    const homeInfo = {
+        imgSrc: petIcon,
+        title: 'Unlock the blockchain power, one ticket at a time',
+        description: "Secure your spot now and join the digital revolution! Tickets selling fast – don\'t miss out!",
+    }
     return (
         <div className='flex flex-col h-full w-full justify-center items-center'>
-            <section className='w-full flex flex-col gap-4 md:flex-row justify-between xl:gap-24 xl:justify-center items-center px-10 md:px-20 lg:px-40'>
-                <img className='w-48 md:w-64 lg:w-80' src={petIcon} alt="Extension Ticket Pet" />
-                <span className='max-w-96 flex flex-col gap-6 text-center md:text-left'>
-                    <h1 className='text-4xl font-AbhayaLibre font-light'>Unlock the blockchain power, one ticket at a time</h1>
-                    <p className='font-AbhayaLibre text-lg'>Secure your spot now and join the digital revolution! Tickets selling fast – don't miss out!</p>
-                    <span className='flex gap-4 w-full flex-col justify-center xs:flex-row md:justify-start'>
-                        <CustomButton>Create event</CustomButton>
-                        <CustomButton type='secondary'>Get Tickets</CustomButton>
-                    </span>
+            <PageBanner imgSrc={homeInfo.imgSrc} title={homeInfo.title} description={homeInfo.description}>
+                <span className='flex gap-4 w-full flex-col justify-center xs:flex-row md:justify-start'>
+                    <CustomButton>Create event</CustomButton>
+                    <CustomButton type='secondary'>Get Tickets</CustomButton>
                 </span>
-            </section>
+            </PageBanner>
         </div>
     )
 }

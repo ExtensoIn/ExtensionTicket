@@ -1,8 +1,9 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, useScrollRestoration } from '@tanstack/react-router'
 import ImageLinear from '../../../shared/components/ImageLinear'
 import mainPhoto from '../../../assets/home/backgroundHome.webp'
 import CustomButton from '../../../shared/components/Button'
 import { useEffect, useState } from 'react';
+import PageBanner from '../../../shared/components/layout/PageBanner';
 
 interface EventProps {
   eventId: number;
@@ -49,7 +50,33 @@ export const Route = createLazyFileRoute('/event/$eventId/')({
 
     return (<>
       <ImageLinear height='100vh'>
-        <div className='flex flex-col h-full w-full justify-center items-center'>
+        <PageBanner imgSrc={props.imageUrl} title={props.title} description={props.description} imgMaxWidth='large'>
+          <span className='max-w-72 flex flex-col gap-6 px-8'>
+            <CustomButton>Get Tickets</CustomButton>
+            <div className='flex gap-4 w-full '>
+              <div className="flex flex-col items-center">
+                <span className='text-6xl font-AbhayaLibre font-extrabold'>{days}</span>
+                <span className='text-lg font-AbhayaLibre font-semibold'>Days</span>
+              </div>
+              <span className="text-6xl font-AbhayaLibre font-extrabold">:</span>
+              <div className="flex flex-col items-center">
+                <span className='text-6xl font-AbhayaLibre font-extrabold'>{hours}</span>
+                <span className='text-lg font-AbhayaLibre font-semibold'>Hours</span>
+              </div>
+              <span className="text-6xl font-AbhayaLibre font-extrabold">:</span>
+              <div className="flex flex-col items-center">
+                <span className='text-6xl font-AbhayaLibre font-extrabold'>{minutes}</span>
+                <span className='text-lg font-AbhayaLibre font-semibold'>Minutes</span>
+              </div>
+              <span className="text-6xl font-AbhayaLibre font-extrabold">:</span>
+              <div className="flex flex-col items-center">
+                <span className='text-6xl font-AbhayaLibre font-extrabold'>{seconds}</span>
+                <span className='text-lg font-AbhayaLibre font-semibold'>Seconds</span>
+              </div>
+            </div>
+          </span>
+        </PageBanner>
+        {/* <div className='flex flex-col h-full w-full justify-center items-center'>
           <section className='w-full flex flex-wrap gap-7 justify-between items-center px-10 md:px-40'>
             <div className="relative">
               <img src={props.imageUrl || mainPhoto} alt="Extension Ticket main image event" className="max-w-80 md:max-w-96" />
@@ -85,7 +112,7 @@ export const Route = createLazyFileRoute('/event/$eventId/')({
               </div>
             </span>
           </section>
-        </div>
+        </div> */}
       </ImageLinear>
     </>)
   }

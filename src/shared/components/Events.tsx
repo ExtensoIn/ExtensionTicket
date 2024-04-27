@@ -28,12 +28,12 @@ const Events = ({ title, events, showImage }: EventsProps) => {
             <section className='flex flex-col gap-6 items-center justify-center bg-gray-100 px-10 py-20 pb-8 md:px-20 lg:px-40 md:py-28'>
                 <h1 className='text-4xl font-light font-AbrilFatface text-left w-full text-blue-950'>{title}</h1>
                 <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-10 mt-8 w-full z-10'>
-                    {events.map((event, index) => (
-                        <Card key={index} {...event} />
+                    {events.map((event) => (
+                        <Card key={event.id} {...event} />
                     ))}
                 </div>
                 <span className='z-10'>
-                    <CustomButton type='action'>
+                    <CustomButton>
                         Load more
                     </CustomButton>
                 </span>

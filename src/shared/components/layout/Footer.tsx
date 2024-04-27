@@ -1,42 +1,9 @@
 import { Link } from '@tanstack/react-router'
 import ticketIcon from '../../../assets/ticketIcon.svg'
 import CustomButton from '../Button'
+import { aboutUs, planEvents } from '../../../data/footer/footer.data'
 
 function Footer() {
-    const planEvents = [
-        {
-            name: 'Create and Set Up',
-            link: '/create'
-        },
-        {
-            name: 'Sell Tickets',
-            link: '/sell'
-        },
-        {
-            name: 'Buy Tickets',
-            link: '/manage'
-        },
-    ]
-    const aboutUs = [
-        {
-            name: 'About Us',
-            link: '/about'
-        },
-        {
-            name: 'Contact Us',
-            link: '/contact'
-        },
-        {
-            name: 'Terms of Service',
-            link: '/tos'
-        },
-        {
-            name: 'How it Works',
-            link: '/how'
-        },
-    ]
-
-
     return (
         <footer className='flex flex-col items-center gap-8 bg-blue-900 font-DMSans text-white p-10'>
             <div className='flex flex-col gap-4 md:flex-row md:gap-32 md:py-10 justify-center'>

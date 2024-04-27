@@ -32,7 +32,7 @@ function Header() {
 
 
     return (
-        <header className="bg-transparent fixed w-full top-4 z-30 flex text-white px-10 md:px-20 lg:px-40">
+        <header autoFocus className="bg-transparent fixed w-full top-4 z-30 flex text-white px-10 md:px-20 lg:px-40">
             <div style={isScrolled ? {
                 backgroundColor: 'rgba(0,0,0,0.3)',
                 backdropFilter: 'blur(10px)',
@@ -41,7 +41,7 @@ function Header() {
             } : {
                 transition: 'background-color border-radius 0.5s',
             }} className='flex w-full gap-1 px-4 py-2 xs:px-6 justify-between rounded-[3rem] items-center'>
-                <Link to='/'>
+                <Link to='/' >
                     <span className='flex gap-1 items-center py-2 xs:py-0'>
                         <img src={ticketIcon} alt="ExtensionTicket" className='hidden xs:block' />
                         <h1 className='flex font-AbrilFatface font-light'><span className='font-bold'>Extension</span>Ticket</h1>
