@@ -11,11 +11,11 @@ const ImageLinear = (props: ImageLinearProps) => {
     const [loaded, setLoaded] = useState(false);
 
     const containerStyle = {
-        height: props.height || '100vh',
+        height: props.height || '100dvh',
     };
 
     return (
-        <div className="relative w-full" style={containerStyle}>
+        <div className="relative w-full min-h-[100dvh]" style={containerStyle}>
             <div
                 className="
                 absolute inset-0 bg-pink-500 bg-gradient-to-r from-pink-500 

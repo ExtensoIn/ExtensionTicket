@@ -1,6 +1,8 @@
+import { Link } from '@tanstack/react-router';
 import bg from '../../assets/home/backgroundHome.webp'
 
 export interface CardProps {
+    id: string;
     title: string;
     description: string;
     imageUrl?: string;
@@ -10,7 +12,7 @@ export interface CardProps {
 
 const Card = (props: CardProps) => {
     return (
-        <div className='bg-white rounded-md cursor-pointer'>
+        <Link resetScroll href={`/event/${props.id}`} to="/event/$eventId" params={{ eventId: props.id }} className='bg-white rounded-md cursor-pointer'>
             <img src={props.imageUrl || bg} alt={props.title} className='w-full h-56 object-cover rounded-t-md' />
             <div className='bg-white rounded-md flex'>
                 <div className='w-1/5'>
@@ -32,7 +34,7 @@ const Card = (props: CardProps) => {
                     </p>
                 </div>
             </div>
-        </div>
+        </Link>
     )
 }
 

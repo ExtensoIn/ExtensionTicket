@@ -1,19 +1,25 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { createRootRoute, Outlet, ScrollRestoration } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import Header from '../shared/components/Header'
+import Header from '../shared/components/layout/Header'
 import NotFound from '../shared/components/NotFound'
+import Footer from '../shared/components/layout/Footer'
 
 export const Route = createRootRoute({
-    component: () => (
-        <main className='flex flex-col'>
-            <Header />
-            <Outlet />
-            <TanStackRouterDevtools />
-        </main>
-    ),
+    component: Layout,
     notFoundComponent: () => (
         <NotFound />
     ),
 
+})
+
+function Layout() {
+    return (
+        <main className='dark'>
+            <ScrollRestoration getKey={(location) => location.pathname} />
+            <Header />
+            <Outlet />
+            <Footer />
+            <TanStackRouterDevtools />
+        </main>
+    )
 }
-)
