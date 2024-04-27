@@ -1,4 +1,4 @@
-import { AnyContext, ReactNode, createLazyFileRoute } from '@tanstack/react-router'
+import { ReactNode, createLazyFileRoute } from '@tanstack/react-router'
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import ImageLinear from '../../shared/components/ImageLinear';
 import InputForm from '../../shared/components/form/InputForm';
@@ -12,6 +12,9 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Event } from "../../connection/types/event.types"
 import { IconoirProvider, Trash } from 'iconoir-react';
+import { useMutation } from '@tanstack/react-query';
+import { addEvent } from '../../connection/event';
+import useAuth from '../../shared/hooks/useAuth';
 
 export const Route = createLazyFileRoute('/createEvent/')({
   component: CreateEvent
@@ -40,7 +43,7 @@ type CreateEventFirstForm = {
   price: number;
   ticketsAmount: number;
   eventType: "OnSite" | "Online" | "Hybrid"
-  categorias: string[];
+  categories: string[];
 }
 
 type CreateEventSecondForm = {
@@ -54,19 +57,24 @@ type CreateEventThirdForm = {
 
 function CreateEvent() {
   const [step, setStep] = useState(0);
+  const { auth } = useAuth();
   const [firstForm, setFirstForm] = useState<CreateEventFirstForm>();
   const [secondForm, setSecondForm] = useState<CreateEventSecondForm>();
   const [thirdForm, setThirdForm] = useState<CreateEventThirdForm>();
+  const createEventMutation = useMutation({
+    mutationFn: (event: Event) => {
+      const identity = auth.authClient.getIdentity();
+      return addEvent(identity, event)
+    }
+  })
   const onSubmitFirst = (data: CreateEventFirstForm) => {
     console.log(data);
     setFirstForm(data);
     setStep(1);
   }
-
   const onCancelSecond = () => {
     setStep(0);
   }
-
   const onSubmitSecond = (data: CreateEventSecondForm) => {
     console.log(data);
     setSecondForm(data);
@@ -74,7 +82,27 @@ function CreateEvent() {
   }
   const onSubmitThird = (data: CreateEventThirdForm) => {
     setThirdForm(data);
-    console.log(data);
+    const startDate = new Date(firstForm?.date.start.year || 2024, (firstForm?.date.start.month || 12) - 1, firstForm?.date.start.day);
+    const endDate = new Date(firstForm?.date.end.year || 2024, (firstForm?.date.end.month || 12) - 1, firstForm?.date.end.day);
+    startDate.setHours(firstForm?.time.hour || 0);
+    startDate.setMinutes(firstForm?.time.minute || 0);
+    createEventMutation.mutate({
+      title: firstForm?.title as string,
+      id: 0,
+      shortDescription: firstForm?.shortDescription as string,
+      startDate: startDate.getTime() * 1000000 as number,
+      endDate: endDate.getTime() * 1000000 as number,
+      ticketsAmount: firstForm?.ticketsAmount as number,
+      status: "NotStarted",
+      categories: firstForm?.categories as string[],
+      eventType: firstForm?.eventType as "OnSite" | "Online" | "Hybrid",
+      price: firstForm?.price as number,
+      longDescription: firstForm?.longDescription as string,
+      place: 'Bolivia',
+      banner: secondForm?.banner as string,
+      imagenPrincipal: secondForm?.imagenPrincipal as string,
+      speakers: data.speakers
+    })
   }
   const onCancelThird = (data: CreateEventThirdForm) => {
     setThirdForm(data)
