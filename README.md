@@ -13,7 +13,7 @@
 [FIGMA](https://www.figma.com/file/pITCojMi2PZ8r7aiOMKuun/ExtensionTicket?type=design&node-id=0%3A1&mode=design&t=SWDlqINRuWYbpgft-1)
 
 ## Demo
-
+See our demo: [link](https://pr27f-vqaaa-aaaan-qmhqa-cai.icp0.io)
 
 ## Site
 
