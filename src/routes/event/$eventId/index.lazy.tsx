@@ -1,16 +1,16 @@
-import {createLazyFileRoute} from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router'
 import ImageLinear from '../../../shared/components/ImageLinear'
 import defaultBanner from '../../../assets/home/backgroundHome.webp'
 import defaultEvent from '../../../assets/events/defaultEvent.jpg'
 import defaultSpeaker from '../../../assets/events/dafaultSpeaker.png'
 import CustomButton from '../../../shared/components/Button'
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import PageBanner from '../../../shared/components/layout/PageBanner';
 import CountDown from '../../../shared/components/CountDown';
 import { IconoirProvider, MapPin } from 'iconoir-react';
-import {getEvent} from "../../../connection/event.ts";
-import {useQuery} from "@tanstack/react-query";
-import {Speaker} from "../../../connection/types/event.types.ts";
+import { getEvent } from "../../../connection/event.ts";
+import { useQuery } from "@tanstack/react-query";
+import { Speaker } from "../../../connection/types/event.types.ts";
 
 // interface EventProps {
 //   eventId: number;
@@ -28,17 +28,17 @@ export const Route = createLazyFileRoute('/event/$eventId/')({
 function EventPage() {
   const { eventId } = Route.useParams()
 
- const eventQuery = useQuery({
-   queryKey: ['singleEvent', eventId],
-   queryFn: () => getEvent(Number(eventId)),
-   refetchOnWindowFocus: false,
- })
-    const [time, setTime] = useState<{
-        days: number;
-        hours: number;
-        minutes: number;
-        seconds: number;
-    }>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const eventQuery = useQuery({
+    queryKey: ['singleEvent', eventId],
+    queryFn: () => getEvent(Number(eventId)),
+    refetchOnWindowFocus: false,
+  })
+  const [time, setTime] = useState<{
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  }>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
   useEffect(() => {
@@ -50,32 +50,32 @@ function EventPage() {
 
 
 
-    const setTimeInterval = () => {
-        const now = new Date();
-        const interval = startDate.getTime() - now.getTime();
-        if(interval < 0) return
-        setTime({
-            days: Math.floor(interval / (1000 * 60 * 60 * 24)),
-            hours: Math.floor((interval / (1000 * 60 * 60)) % 24),
-            minutes: Math.floor((interval / 1000 / 60) % 60),
-            seconds: Math.floor((interval / 1000) % 60),
-        })
-    }
-    setInterval(setTimeInterval, 1000)
+  const setTimeInterval = () => {
+    const now = new Date();
+    const interval = startDate.getTime() - now.getTime();
+    if (interval < 0) return
+    setTime({
+      days: Math.floor(interval / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((interval / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((interval / 1000 / 60) % 60),
+      seconds: Math.floor((interval / 1000) % 60),
+    })
+  }
+  setInterval(setTimeInterval, 1000)
 
 
 
   return (<div className='flex flex-col'>
-    <ImageLinear height='100vh'>
+    <ImageLinear height='100dvh'>
       <PageBanner imgSrc={defaultBanner} title={eventQuery.data?.title || 'Event Title'} description={eventQuery.data?.shortDescription || 'Event Description'} imgMaxWidth='large'>
-          <span className='w-full flex flex-col gap-4'>
-            <CustomButton>Get Tickets</CustomButton>
-            <CountDown days={time.days} hours={time.hours} minutes={time.minutes} seconds={time.seconds} />
-          </span>
+        <span className='w-full flex flex-col gap-4'>
+          <CustomButton>Get Tickets</CustomButton>
+          <CountDown days={time.days} hours={time.hours} minutes={time.minutes} seconds={time.seconds} />
+        </span>
       </PageBanner>
     </ImageLinear>
-    <AboutEvent description={eventQuery.data?.longDescription || 'Event Long Description'} days={Math.ceil((endDate.getTime() - startDate.getTime() )/ (1000 * 60 * 60 * 24)) } speakers={eventQuery.data?.speakers?.length || 0} location={eventQuery.data?.place || 'La Paz,Bolivia'} />
-    <SpeakersSection speakers={eventQuery.data?.speakers || []}/>
+    <AboutEvent description={eventQuery.data?.longDescription || 'Event Long Description'} days={Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))} speakers={eventQuery.data?.speakers?.length || 0} location={eventQuery.data?.place || 'La Paz,Bolivia'} />
+    <SpeakersSection speakers={eventQuery.data?.speakers || []} />
     {/* TODO Add the upcoming events section here */}
   </div>)
 }

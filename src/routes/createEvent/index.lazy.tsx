@@ -1,21 +1,21 @@
-import {ReactNode, createLazyFileRoute} from '@tanstack/react-router'
-import {FormProvider, useFieldArray, useForm} from 'react-hook-form'
+import { ReactNode, createLazyFileRoute } from '@tanstack/react-router'
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import ImageLinear from '../../shared/components/ImageLinear';
 import InputForm from '../../shared/components/form/InputForm';
 import DateRangeForm from '../../shared/components/form/DateRangeForm';
 import TimeForm from '../../shared/components/form/TimeForm';
-import {Button, DateValue, RangeValue, TimeInputValue} from '@nextui-org/react';
+import { Button, DateValue, RangeValue, TimeInputValue } from '@nextui-org/react';
 import AutocompleteForm from '../../shared/components/form/AutocompleteForm';
 import SelectForm from '../../shared/components/form/SelectForm';
 import CustomButton from '../../shared/components/Button';
-import {useEffect, useState} from 'react';
-import {AnimatePresence, motion} from 'framer-motion';
-import {Event} from "../../connection/types/event.types"
-import {IconoirProvider, Trash} from 'iconoir-react';
-import {useMutation} from '@tanstack/react-query';
-import {addEvent} from '../../connection/event';
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Event } from "../../connection/types/event.types"
+import { IconoirProvider, Trash } from 'iconoir-react';
+import { useMutation } from '@tanstack/react-query';
+import { addEvent } from '../../connection/event';
 import useAuth from '../../shared/hooks/useAuth';
-import {toast} from "sonner";
+import { toast } from "sonner";
 
 export const Route = createLazyFileRoute('/createEvent/')({
     component: CreateEvent
@@ -58,7 +58,7 @@ type CreateEventThirdForm = {
 
 function CreateEvent() {
     const [step, setStep] = useState(0);
-    const {auth} = useAuth();
+    const { auth } = useAuth();
     const [firstForm, setFirstForm] = useState<CreateEventFirstForm>();
     const [secondForm, setSecondForm] = useState<CreateEventSecondForm>();
     const [thirdForm, setThirdForm] = useState<CreateEventThirdForm>();
@@ -118,21 +118,21 @@ function CreateEvent() {
     }
 
     return (
-        <ImageLinear height='100dvh'>
+        <ImageLinear height={step < 2 ? 'auto' : '100dvh'} >
             <AnimatePresence mode='wait' initial={false}>
                 {step === 0 && (
                     <AnimateTransition animateKey="create-event-first">
-                        <CreateEventFirst onSubmit={onSubmitFirst} data={firstForm}/>
+                        <CreateEventFirst onSubmit={onSubmitFirst} data={firstForm} />
                     </AnimateTransition>
                 )}
                 {step === 1 && (
                     <AnimateTransition animateKey="create-event-second">
-                        <CreateEventSecond data={secondForm} onSubmit={onSubmitSecond} onCancel={onCancelSecond}/>
+                        <CreateEventSecond data={secondForm} onSubmit={onSubmitSecond} onCancel={onCancelSecond} />
                     </AnimateTransition>
                 )}
                 {step === 2 && (
                     <AnimateTransition animateKey="create-event-third">
-                        <CreateEventThird onCancel={onCancelThird} data={thirdForm} onSubmit={onSubmitThird}/>
+                        <CreateEventThird onCancel={onCancelThird} data={thirdForm} onSubmit={onSubmitThird} />
                     </AnimateTransition>
                 )}
             </AnimatePresence>
@@ -146,7 +146,7 @@ interface CreateEventFirstProps {
     data: CreateEventFirstForm | undefined;
 }
 
-function CreateEventFirst({onSubmit, data}: CreateEventFirstProps) {
+function CreateEventFirst({ onSubmit, data }: CreateEventFirstProps) {
     const methods = useForm<CreateEventFirstForm>();
 
     useEffect(() => {
@@ -157,32 +157,32 @@ function CreateEventFirst({onSubmit, data}: CreateEventFirstProps) {
 
     return (
         <FormProvider {...methods}>
-            <form className='bg-[#000000d9] backdrop-blur-[2px] flex flex-col p-4 py-8 xs:p-8 gap-4 rounded-xl'
-                  onSubmit={methods.handleSubmit(onSubmit)}>
-                <InputForm name='title' label="Event's name" type='text'/>
+            <form className='bg-[#000000d9] backdrop-blur-[2px] flex flex-col p-4 py-8 xs:p-8 gap-4 rounded-xl my-20 xs:my-0'
+                onSubmit={methods.handleSubmit(onSubmit)}>
+                <InputForm name='title' label="Event's name" type='text' />
                 <div className='grid-cols-1 grid xs:grid-cols-2 gap-4'>
-                    <InputForm name='shortDescription' label='Short description' type='text'/>
-                    <InputForm name='longDescription' label='Long description' type='text'/>
+                    <InputForm name='shortDescription' label='Short description' type='text' />
+                    <InputForm name='longDescription' label='Long description' type='text' />
 
 
-                    <DateRangeForm label='Event dates' name='date'/>
-                    <TimeForm name='time' label='Event time'/>
+                    <DateRangeForm label='Event dates' name='date' />
+                    <TimeForm name='time' label='Event time' />
 
-                    <InputForm name='ticketsAmount' label='Number of tickets available' type='number'/>
-                    <InputForm name='price' label="Ticket's Price" type='number'/>
+                    <InputForm name='ticketsAmount' label='Number of tickets available' type='number' />
+                    <InputForm name='price' label="Ticket's Price" type='number' />
 
                     <AutocompleteForm name='eventType' label='Event categories' items={[
-                        {value: 'OnSite', label: 'On Site'},
-                        {value: 'Online', label: 'Virtual'},
-                        {value: 'Hybrid', label: 'Hybrid'}
-                    ]}/>
+                        { value: 'OnSite', label: 'On Site' },
+                        { value: 'Online', label: 'Virtual' },
+                        { value: 'Hybrid', label: 'Hybrid' }
+                    ]} />
                     <SelectForm name='categories' label='Event categories' items={[
-                        {value: 'music', label: 'Music'},
-                        {value: 'sports', label: 'Sports'},
-                        {value: 'theater', label: 'Theater'},
-                        {value: 'movies', label: 'Movies'},
-                        {value: 'technology', label: 'Technology'}
-                    ]}/>
+                        { value: 'music', label: 'Music' },
+                        { value: 'sports', label: 'Sports' },
+                        { value: 'theater', label: 'Theater' },
+                        { value: 'movies', label: 'Movies' },
+                        { value: 'technology', label: 'Technology' }
+                    ]} />
                 </div>
                 <CustomButton buttonType='submit'>{'Next ➡️'}</CustomButton>
             </form>
@@ -196,7 +196,7 @@ interface CreateEventSecondProps {
     data: CreateEventSecondForm | undefined;
 }
 
-function CreateEventSecond({onSubmit, onCancel, data}: CreateEventSecondProps) {
+function CreateEventSecond({ onSubmit, onCancel, data }: CreateEventSecondProps) {
     const methods = useForm<CreateEventSecondForm>();
 
     useEffect(() => {
@@ -207,14 +207,14 @@ function CreateEventSecond({onSubmit, onCancel, data}: CreateEventSecondProps) {
 
     return (
         <FormProvider {...methods}>
-            <form className='bg-[#000000d9] backdrop-blur-[2px] flex flex-col p-4 py-8 xs:p-8 gap-4 rounded-xl'
-                  onSubmit={methods.handleSubmit(onSubmit)}>
+            <form className='bg-[#000000d9] backdrop-blur-[2px] flex flex-col p-4 py-8 xs:p-8 gap-4 rounded-xl my-20 xs:my-0'
+                onSubmit={methods.handleSubmit(onSubmit)}>
                 <div className='flex w-full justify-end'>
                     <CustomButton buttonType='button' type='action' onClick={onCancel}>{'Back ⬅️'}</CustomButton>
                 </div>
                 <div className='grid-cols-1 grid xs:grid-cols-2 gap-4'>
-                    <InputForm name='banner' label='Banner' type='media'/>
-                    <InputForm name='imagenPrincipal' label='Main image' type='media'/>
+                    <InputForm name='banner' label='Banner' type='media' />
+                    <InputForm name='imagenPrincipal' label='Main image' type='media' />
                 </div>
                 <CustomButton buttonType='submit'>{'Next ➡️'}</CustomButton>
             </form>
@@ -229,9 +229,9 @@ interface CreateEventThirdProps {
     data: CreateEventThirdForm | undefined;
 }
 
-function CreateEventThird({onSubmit, onCancel, data}: CreateEventThirdProps) {
+function CreateEventThird({ onSubmit, onCancel, data }: CreateEventThirdProps) {
     const methods = useForm<CreateEventThirdForm>();
-    const {fields, append, remove} = useFieldArray({
+    const { fields, append, remove } = useFieldArray({
         control: methods.control,
         name: 'speakers'
     });
@@ -243,19 +243,19 @@ function CreateEventThird({onSubmit, onCancel, data}: CreateEventThirdProps) {
 
     return (
         <FormProvider {...methods}>
-            <form className='bg-[#000000d9] backdrop-blur-[2px] flex flex-col p-4 py-8 xs:p-8 gap-4 rounded-xl'
-                  onSubmit={methods.handleSubmit(onSubmit)}>
+            <form className='bg-[#000000d9] backdrop-blur-[2px] flex flex-col p-4 py-8 xs:p-8 gap-4 rounded-xl self-center justify-self-center'
+                onSubmit={methods.handleSubmit(onSubmit)}>
                 <div className='flex w-full justify-end'>
                     <CustomButton buttonType='button' type='action'
-                                  onClick={() => onCancel(methods.getValues())}>{'Back ⬅️'}</CustomButton>
+                        onClick={() => onCancel(methods.getValues())}>{'Back ⬅️'}</CustomButton>
                 </div>
                 {fields.map((field, index) => (
                     <div key={field.id} className='grid-cols-1 grid xs:grid-cols-[1fr_1fr_auto] gap-4'>
-                        <InputForm name={`speakers[${index}].name`} label='Speaker name' type='text'/>
-                        <InputForm name={`speakers[${index}].position`} label='Speaker position' type='text'/>
+                        <InputForm name={`speakers[${index}].name`} label='Speaker name' type='text' />
+                        <InputForm name={`speakers[${index}].position`} label='Speaker position' type='text' />
                         <Button className='h-full ' onClick={() => remove(index)}>
                             <IconoirProvider>
-                                <Trash className='text-red-500'/>
+                                <Trash className='text-red-500' />
                             </IconoirProvider>
                         </Button>
                     </div>
@@ -283,9 +283,9 @@ function AnimateTransition(props: AnimateTransitionProps) {
     return (
         <motion.div
             key={props.animateKey}
-            initial={{opacity: 0}}
-            animate={{opacity: 1}}
-            exit={{opacity: 0}}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
         >
             {props.children}
         </motion.div>

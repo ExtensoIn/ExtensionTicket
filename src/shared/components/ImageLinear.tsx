@@ -15,7 +15,7 @@ const ImageLinear = (props: ImageLinearProps) => {
     };
 
     return (
-        <div className="relative w-full min-h-[100dvh]" style={containerStyle}>
+        <div className="relative w-full min-h-[100dvh] h-auto xs:h-[100dvh]" style={containerStyle}>
             <div
                 className="
                 absolute inset-0 bg-pink-500 bg-gradient-to-r from-pink-500 
