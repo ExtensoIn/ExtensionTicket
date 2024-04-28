@@ -1,75 +1,84 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
+import {createLazyFileRoute} from '@tanstack/react-router'
 import ImageLinear from '../../../shared/components/ImageLinear'
+import defaultBanner from '../../../assets/home/backgroundHome.webp'
 import defaultEvent from '../../../assets/events/defaultEvent.jpg'
 import defaultSpeaker from '../../../assets/events/dafaultSpeaker.png'
 import CustomButton from '../../../shared/components/Button'
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import PageBanner from '../../../shared/components/layout/PageBanner';
 import CountDown from '../../../shared/components/CountDown';
 import { IconoirProvider, MapPin } from 'iconoir-react';
+import {getEvent} from "../../../connection/event.ts";
+import {useQuery} from "@tanstack/react-query";
+import {Speaker} from "../../../connection/types/event.types.ts";
 
-interface EventProps {
-  eventId: number;
-  title: string;
-  description: string;
-  eventDate: Date;
-  imageUrl?: string;
-  backgroundImageUrl?: string;
-}
+// interface EventProps {
+//   eventId: number;
+//   title: string;
+//   description: string;
+//   eventDate: Date;
+//   imageUrl?: string;
+//   backgroundImageUrl?: string;
+// }
 
 export const Route = createLazyFileRoute('/event/$eventId/')({
-  component: (props: EventProps) => {
-    props = {
-      eventId: 1,
-      title: 'Event 1',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-      eventDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-    }
-
-    const eventDate = new Date(props.eventDate);
-    const [timeLeft, setTimeLeft] = useState<number>(
-      Math.floor((eventDate.getTime() - new Date().getTime()) / 1000)
-    );
-
-    useEffect(() => {
-      const intervalId = setInterval(() => {
-        setTimeLeft((prevTimeLeft) => {
-          const newTimeLeft = prevTimeLeft - 1;
-          if (newTimeLeft === 0) {
-            window.location.reload();
-          }
-          return newTimeLeft;
-        });
-      }, 1000);
-
-      return () => clearInterval(intervalId);
-    }, []);
-
-    const days = Math.floor(timeLeft / (60 * 60 * 24));
-    const hours = Math.floor((timeLeft % (60 * 60 * 24)) / (60 * 60));
-    const minutes = Math.floor((timeLeft % (60 * 60)) / 60);
-    const seconds = Math.floor(timeLeft % 60);
-
-    return (<div className='flex flex-col'>
-      <ImageLinear height='100vh'>
-        <PageBanner imgSrc={props.imageUrl} title={props.title} description={props.description} imgMaxWidth='large'>
-          <span className='w-full flex flex-col gap-4'>
-            <CustomButton>Get Tickets</CustomButton>
-            <CountDown days={days} hours={hours} minutes={minutes} seconds={seconds} />
-          </span>
-        </PageBanner>
-      </ImageLinear>
-      <AboutEvent description={props.description} days={days} speakers={0} location='42 Drive, Florida, USA' />
-      <SpeakersSection speakers={[
-        { nombre: 'Speaker 1', cargo: 'CEO' },
-        { nombre: 'Speaker 2', cargo: 'CTO' },
-        { nombre: 'Speaker 3', cargo: 'CFO' },
-      ]} />
-      {/* TODO Add the upcoming events section here */}
-    </div>)
-  }
+  component: EventPage
 })
 
+function EventPage() {
+  const { eventId } = Route.useParams()
+
+ const eventQuery = useQuery({
+   queryKey: ['singleEvent', eventId],
+   queryFn: () => getEvent(Number(eventId)),
+   refetchOnWindowFocus: false,
+ })
+    const [time, setTime] = useState<{
+        days: number;
+        hours: number;
+        minutes: number;
+        seconds: number;
+    }>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [endDate, setEndDate] = useState<Date>(new Date());
+  useEffect(() => {
+    if (eventQuery.data) {
+      setEndDate(new Date(Math.trunc(eventQuery.data.endDate / 1000000)));
+      setStartDate(new Date(Math.trunc(eventQuery.data.startDate / 1000000)));
+    }
+  }, [eventQuery.data]);
+
+
+
+    const setTimeInterval = () => {
+        const now = new Date();
+        const interval = startDate.getTime() - now.getTime();
+        if(interval < 0) return
+        setTime({
+            days: Math.floor(interval / (1000 * 60 * 60 * 24)),
+            hours: Math.floor((interval / (1000 * 60 * 60)) % 24),
+            minutes: Math.floor((interval / 1000 / 60) % 60),
+            seconds: Math.floor((interval / 1000) % 60),
+        })
+    }
+    setInterval(setTimeInterval, 1000)
+
+
+
+  return (<div className='flex flex-col'>
+    <ImageLinear height='100vh'>
+      <PageBanner imgSrc={defaultBanner} title={eventQuery.data?.title || 'Event Title'} description={eventQuery.data?.shortDescription || 'Event Description'} imgMaxWidth='large'>
+          <span className='w-full flex flex-col gap-4'>
+            <CustomButton>Get Tickets</CustomButton>
+            <CountDown days={time.days} hours={time.hours} minutes={time.minutes} seconds={time.seconds} />
+          </span>
+      </PageBanner>
+    </ImageLinear>
+    <AboutEvent description={eventQuery.data?.longDescription || 'Event Long Description'} days={Math.ceil((endDate.getTime() - startDate.getTime() )/ (1000 * 60 * 60 * 24)) } speakers={eventQuery.data?.speakers?.length || 0} location={eventQuery.data?.place || 'La Paz,Bolivia'} />
+    <SpeakersSection speakers={eventQuery.data?.speakers || []}/>
+    {/* TODO Add the upcoming events section here */}
+  </div>)
+}
 type AboutEventProps = {
   description: string;
   location?: string;
@@ -109,13 +118,8 @@ function Square({ title, description }: SquareProps) {
   </div>
 }
 
-export type Speakers = {
-  nombre: string;
-  cargo: string;
-}
-
 type SpeakersSection = {
-  speakers: Speakers[];
+  speakers: Speaker[];
 }
 
 function SpeakersSection({ speakers }: SpeakersSection) {
@@ -124,22 +128,22 @@ function SpeakersSection({ speakers }: SpeakersSection) {
     <section className='bg-purple-200 flex flex-col gap-12 py-8 px-4'>
       <h2 className='text-4xl font-AbhayaLibre px-12 text-center'>Speakers</h2>
       <div className='grid grid-cols-1 gap-y-16 gap-x-4 items-center justify-items-center xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4'>
-        {speakers.map((speaker) => <Speaker key={speaker.nombre} {...speaker} />)}
+        {speakers.map((speaker) => <SpeakerCard key={speaker.name} {...speaker} />)}
       </div>
     </section>
 
   )
 }
 
-function Speaker({ nombre, cargo }: Speakers) {
+function SpeakerCard({ name, position }: Speaker) {
   return (
     <div className='flex flex-col gap-2 w-40 h-44 smd:w-56 smd:h-48  bg-gradient-to-b from-pink-500 
     to-blue-700 text-white items-center justify-center relative rounded-lg'>
       <img src={defaultSpeaker} alt='Speaker' className='size-24 absolute top-[-3rem] rounded-full' />
 
       <span className='mt-4'>
-        <h4 className='font-bold text-2xl'>{nombre}</h4>
-        <p className='text-lg'>{cargo}</p>
+        <h4 className='font-bold text-2xl'>{name}</h4>
+        <p className='text-lg'>{position}</p>
       </span>
     </div>
   )

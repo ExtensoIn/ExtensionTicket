@@ -6,10 +6,11 @@ import {CardEvent, Event} from "./types/event.types.ts";
 
 export async function addEvent(identity: Identity, event: Event): Promise<Event>{
     const actor = makeEventActor(identity);
+    console.log(identity, event)
     const addEventResult: Result = await actor.addEvent({
         id: 0,
         categories: event.categories,
-        status: JSON.parse(`{"${event.status}": "null"}`),
+        status: JSON.parse(`{"${event.status}": null}`),
         imagenPrincipal: event.imagenPrincipal? [event.imagenPrincipal] : [],
         title: event.title,
         participants: [],
@@ -25,7 +26,7 @@ export async function addEvent(identity: Identity, event: Event): Promise<Event>
         createdByEmail: [],
         longDescription: event.longDescription? [event.longDescription] : [],
         startDate: event.startDate,
-        eventType: JSON.parse(`{"${event.eventType}": "null"}`),
+        eventType: JSON.parse(`{"${event.eventType}": null}`),
     })
     if('err' in addEventResult){
         throw new EventError(addEventResult.err)
