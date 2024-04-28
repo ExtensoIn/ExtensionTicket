@@ -118,7 +118,7 @@ function CreateEvent() {
     }
 
     return (
-        <ImageLinear height={step < 2 ? 'auto' : '100dvh'} >
+        <ImageLinear>
             <AnimatePresence mode='wait' initial={false}>
                 {step === 0 && (
                     <AnimateTransition animateKey="create-event-first">
@@ -243,7 +243,7 @@ function CreateEventThird({ onSubmit, onCancel, data }: CreateEventThirdProps) {
 
     return (
         <FormProvider {...methods}>
-            <form className='bg-[#000000d9] backdrop-blur-[2px] flex flex-col p-4 py-8 xs:p-8 gap-4 rounded-xl self-center justify-self-center'
+            <form className='bg-[#000000d9] backdrop-blur-[2px] flex flex-col p-4 py-8 xs:p-8 gap-4 rounded-xl my-40'
                 onSubmit={methods.handleSubmit(onSubmit)}>
                 <div className='flex w-full justify-end'>
                     <CustomButton buttonType='button' type='action'
